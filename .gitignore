@@ -48,8 +48,6 @@ speed-measure-plugin.json
 
 # IDEs and editors
 /.idea
-.project
-.classpath
 .c9/
 *.launch
 .settings/
@@ -77,11 +75,8 @@ testem.log
 .DS_Store
 Thumbs.db
 
-HELP.md
 angle-chan-server/target/
-angle-chan-server/!.mvn/wrapper/maven-wrapper.jar
-angle-chan-server/!**/src/main/**
-angle-chan-server/!**/src/test/**
+angle-chan-server/.mvn/wrapper/maven-wrapper.jar
 
 
 ### IntelliJ IDEA ###
@@ -91,5 +86,8 @@ angle-chan-server/*.iml
 angle-chan-server/*.ipr
 
 ##personal
-./angle-chan-client/src/assets/*
+angle-chan-client/src/assets/**
 
+angle-chan-server/src/main/resources/**
+
+#/angle-chan-server/src/main/resources/built/**
