@@ -1,0 +1,248 @@
+element {
+  --tn-w: 250;
+  --tn-h: 140;
+}
+
+:host-context(.catalog-small) > .catalog-thread {
+  width: 165px;
+  height: 320px;
+}
+
+:host-context(.catalog-thread-hover-expand) .catalog-thread:hover {
+  z-index: 1;
+}
+
+.catalog-thread.catalog-thread {
+  margin: 2px;
+}
+
+div.thread {
+  margin: 0;
+  clear: both;
+}
+
+.catalog-thread {
+  display: inline-block;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 1px solid transparent;
+  word-wrap: break-word;
+  vertical-align: top;
+  position: relative;
+}
+
+
+:root.yotsuba-b.werkTyme .catalog-thread:not(:hover),
+ :root.yotsuba-b.werkTyme:not(.catalog-hover-expand) .catalog-thread,
+ :root.yotsuba-b.catalog-hover-expand .catalog-container:hover > .post, :host-context(.catalog-thread-hover-expand) .catalog-container:hover .catalog-reply {
+  border-color: #B7C5D9;
+}
+
+:host-context(.catalog-thread-hover-expand) .catalog-container:hover > .post {
+  background-color: #D6DAF0;
+}
+
+:host-context(.catalog-thread-hover-expand) .catalog-container:hover > .catalog-post {
+  margin-left: -61px;
+  margin-right: -61px;
+}
+
+.catalog-post.catalog-post {
+  margin: -21px -1px -1px;
+  overflow: visible;
+}
+
+div.post {
+  margin: 4px 0;
+  overflow: hidden;
+}
+
+.catalog-post {
+  position: absolute;
+  top: 4px;
+  left: 0;
+  right: 0;
+  border: 1px solid transparent;
+  /*border-top-color: transparent;*/
+  /*border-right-color: transparent;*/
+  /*border-bottom-color: transparent;*/
+  /*border-left-color: transparent;*/
+  padding-top: 20px;
+}
+
+element {
+  --tn-w: 250;
+  --tn-h: 140;
+}
+
+.catalog-thread {
+  word-wrap: break-word;
+}
+
+/*:root.catalog-mode .board {*/
+/*  text-align: center;*/
+/*}*/
+:host {
+  color: #000;
+  font-family: arial, helvetica, sans-serif;
+  font-size: 10pt;
+}
+
+.catalog-container:not(:hover), :host-context(.not-catalog-hover-expand) .catalog-container {
+  overflow: hidden;
+}
+
+.catalog-container {
+  position: absolute;
+  top: -4px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+element {
+  --tn-w: 250;
+  --tn-h: 140;
+}
+
+.catalog-thread {
+  word-wrap: break-word;
+}
+
+:root.catalog-mode .board {
+  text-align: center;
+}
+
+body {
+  color: #000;
+  font-family: arial, helvetica, sans-serif;
+  font-size: 10pt;
+}
+:host-context(.not-catalog-hover-expand) .catalog-container > * > .file,
+:host-context(.not-catalog-hover-expand) .catalog-container > * > .postInfo > :not(.subject),
+:host-context(.not-catalog-hover-expand) .catalog-container > * > .catalog-replies,
+:host-context(.not-catalog-hover-expand) .catalog-container .extra-linebreak,
+:host-context(.not-catalog-hover-expand) .catalog-container .abbr {
+  display: none;
+}
+
+.catalog-container:not(:hover) > * > .file,
+.catalog-container:not(:hover) > * > .postInfo > :not(.subject),
+.catalog-container:not(:hover) > * > .catalog-replies,
+.catalog-container:not(:hover) .extra-linebreak,
+.catalog-container:not(:hover) .abbr {
+  display: none;
+}
+
+ .catalog-thread > .catalog-container > :not(.catalog-post),
+ .catalog-post > .file > :not(.fileText),
+ .catalog-post > * > .fileText > :not(:first-child),
+ .catalog-post > .postInfo > :not(.subject):not(.nameBlock):not(.dateTime),
+ .catalog-post > .postInfo > .nameBlock > .contact-links,
+ .catalog-post > * > * > .posteruid,
+ .catalog-post > * > * > .postJumper,
+ :root.bottom-backlinks .catalog-post > .container,
+.post:not(.catalog-post) > .catalog-link,
+.post:not(.catalog-post) > .catalog-stats,
+.post:not(.catalog-post) > .catalog-replies {
+  display: none;
+}
+:host-context(.catalog-hover-expand) .catalog-container:hover > * > :not(.catalog-replies) {
+  padding-left: 2px;
+  padding-right: 2px;
+}
+:root:not(.keyboard-focus) a {
+  outline: none;
+}
+a:hover {
+  color:
+    #d00 !important;
+}
+.catalog-link {
+  display: block;
+  position: relative;
+}
+a, a:visited {
+  color: #34345c;
+  text-decoration: none;
+}
+.catalog-thread {
+  word-wrap: break-word;
+}
+:root.catalog-mode .board {
+  text-align: center;
+}
+
+/*For catalog reply*/
+:root:not(.keyboard-focus) a {
+  outline: none;
+}
+.catalog-reply-excerpt {
+  -webkit-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+.catalog-reply > * {
+  padding: 3px;
+  overflow: hidden;
+  -webkit-flex: none;
+  flex: none;
+}
+a, a:visited {
+  color:
+    #34345c;
+  text-decoration: none;
+}
+.catalog-reply {
+  text-align: left;
+  white-space: nowrap;
+  border-top: 1px solid
+  transparent;
+  border-top-color: transparent;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: stretch;
+  align-items: stretch;
+}
+.catalog-reply {
+  text-align: left;
+  white-space: nowrap;
+}
+/*element {*/
+/*  --tn-w: 231;*/
+/*  --tn-h: 250;*/
+/*}*/
+:root.catalog-mode .board {
+  text-align: center;
+}
+.catalog-reply > * {
+  padding: 3px;
+  overflow: hidden;
+}
+.catalog-reply > span {
+  font-style: italic;
+  font-weight: bold;
+}
+div.post div.postInfo span.nameBlock span.name {
+  color:
+    #117743;
+  font-weight: 700;
+}
+.catalog-stats {
+  font-size: 10px;
+  font-weight: 700;
+  padding-top: 2px;
+}
+.catalog-reply-preview {
+  outline: none;
+}
+div.catalog-reply > a.catalog-reply-excerpt {
+  -webkit-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+/*body {*/
+/*  color: #000;*/
+/*  font-family: arial,helvetica,sans-serif;*/
+/*  font-size: 10pt;*/
+/*}*/

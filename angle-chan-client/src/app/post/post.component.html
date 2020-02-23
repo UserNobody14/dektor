@@ -1,0 +1,64 @@
+<div
+  class="postContainer"
+  [class.opContainer]="isOp"
+  [class.replyContainer]="!isOp"
+>
+  <div class="post" [class.reply]="!isOp" [class.op]="isOp">
+    <div class="postInfo desktop">
+      <!-- <input type="checkbox" value="delete" /> -->
+      <span class="nameBlock">
+        <span class="name">{{ post.name }}</span>
+      </span>
+      &nbsp;
+      <span class="dateTime" [attr.data-utc]="post.utc | dateToTime">{{
+        post.utc
+      }}</span>
+      &nbsp;
+      <span class="postNum">{{ post.number }}</span>
+      &nbsp;
+      <span class="container">
+        <ng-container *ngFor="let reply of post.replies">
+          <ng-template #popOverPost let-item="item">
+            <app-post [isOp]="false" [post]="item | async"></app-post>
+          </ng-template>
+          <ng-template #popOverTitle let-postnum="postnum">{{
+            postnum
+          }}</ng-template>
+
+          <a
+            class="backlink"
+            [class.visited]="post.inlinedPosts | containsNumber: reply"
+            #p="ngbPopover"
+            [autoClose]="false"
+            triggers="manual"
+            [popoverTitle]="popOverTitle"
+            [ngbPopover]="popOverPost"
+            (mouseenter)="findPostForReply(p, reply, true)"
+            (mouseleave)="findPostForReply(p, reply, false)"
+            (click)="addPost(reply)"
+            >{{ reply }}</a
+          >
+          <!--          <span *ngIf="hasNumber(post.replyPosts | postNumbers, reply)">bbbbbbbb</span>-->
+          <!--          <span *ngIf="hasNumber([333,222], reply)">bbbbbbbb</span>-->
+          &nbsp;
+        </ng-container>
+      </span>
+      <!--      <ng-container *ngIf="!post.replyPosts.isEmpty()">-->
+      <!--        <div class="inline" *ngFor="let replies of post.replyPosts">-->
+      <!--          <app-post [isOp]="false" [post]="replies"></app-post>-->
+      <!--        </div>-->
+      <!--      </ng-container>-->
+      <ng-container *ngIf="post?.inlinedPosts?.isEmpty()">
+        <div class="inline" *ngFor="let replies of inlinedPosts$ | async">
+          <app-post [isOp]="false" [post]="replies"></app-post>
+        </div>
+      </ng-container>
+    </div>
+    <!-- todo: rearrange this to suit an arbitrary number of items -->
+    <ng-container *ngIf="post.media[0] != null && post.media[0] != undefined">
+      <app-media-container [media]="post.media[0]"></app-media-container>
+    </ng-container>
+    <!-- <app-art-player *ngIf="isOp" ></app-art-player> -->
+    <blockquote class="postMessage">{{ post.text }}</blockquote>
+  </div>
+</div>

@@ -1,0 +1,6 @@
+<div class="bar-class-for-thumbnails" #bar></div>
+<div class="control-thumbnails"
+*ngIf="showThumbnail"
+[style.background]="'url(' + url + ')'"
+[style.left]="thumbnailPositionLeft"
+[ngStyle]="{'background-position': positionString, 'height': height + 'px', 'width': width + 'px'}"></div>

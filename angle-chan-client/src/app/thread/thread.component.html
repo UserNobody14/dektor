@@ -1,0 +1,10 @@
+<p>thread</p>
+<!--<app-video-container></app-video-container>-->
+<app-post-form></app-post-form>
+<div class="board">
+  <div class="thread-angle-chan">
+    <ng-container *ngFor="let item of posts$ | async; let i = index">
+      <app-post *ngIf="!(inlined$ | async | containsNumber:item.number)" [inlining]="item.inlinedPosts" [post]="item" [isOp]="i === 0"></app-post>
+    </ng-container>
+  </div>
+</div>

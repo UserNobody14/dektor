@@ -1,0 +1,31 @@
+:host div.file {
+  display:block
+ }
+:host div.file div.fileInfo {
+  margin-right:10px;
+  word-break:break-all
+ }
+ div.replyContainer div.post div.file div.fileInfo {
+  margin-left:20px
+ }
+ :host div.file .fileThumb {
+  float:left;
+  margin-left:20px;
+  margin-right:20px;
+  margin-top:3px;
+  margin-bottom:5px
+ }
+ span.fileThumb {
+  margin-left:0!important;
+  margin-right:5px!important
+ }
+ div.reply span.fileThumb,
+ div.reply span.fileThumb img {
+  float:none!important;
+  margin-top:0!important;
+  margin-bottom:0!important
+ }
+ div.post div.file .fileThumb img {
+  border:none;
+  float:left
+ }

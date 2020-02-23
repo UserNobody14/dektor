@@ -1,0 +1,5 @@
+<div class="board json-index catalog-small catalog-thread-hover-expand catalog-hover-expand">
+<ng-container *ngFor="let thread of threads | async">
+  <app-catalog-thumbnail class="catalog-small" [op]="thread.posts[0]" [catalogReplies]="thread.posts" [threadNumber]="thread.number"></app-catalog-thumbnail>
+</ng-container>
+</div>

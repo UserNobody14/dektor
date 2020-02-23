@@ -1,0 +1,305 @@
+
+.drop-box {
+  cursor: pointer;
+  background: #F8F8F8;
+  border: 5px dashed #DDD;
+  text-align: center;
+  padding: 40px;
+}
+
+.drag-over-title {
+  display: none;
+}
+
+.drop-box.dragover {
+  opacity: 0.6;
+}
+
+.drop-box.dragover .drag-over-title {
+  display: block;
+}
+
+.drop-box.dragover .drag-in-title {
+  display: none;
+}
+
+input[type='file'] {
+  display: none;
+}
+
+/*///////////////////////////*/
+
+#qr {
+  position: fixed;
+  padding: 1px;
+  border: 1px solid transparent;
+  min-width: 300px;
+  border-radius: 3px 3px 0 0;
+}
+
+#qr {
+  z-index: 20;
+}
+
+#overlay, #qp, #ihover, #navlinks, .fixed #header-bar, :host-context(.float) #updater, :host-context(.float) #thread-stats, #qr {
+  position: fixed;
+}
+
+#qr, #thread-watcher {
+  box-shadow: -1px 2px 2px rgba(0, 0, 0, 0.25);
+}
+
+:host-context(.yotsuba-b) .dialog {
+  background-color: #D6DAF0;
+  border-color: #B7C5D9;
+}
+
+.dialog {
+  border: 1px solid;
+  display: block;
+  background-color: inherit;
+}
+
+#qr > form {
+  max-height: 85vh;
+  max-height: calc(100vh - 75px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+#qr.forced-anon input[data-name="name"]:not(.force-show),
+#qr.forced-anon input[data-name="sub"]:not(.force-show),
+#qr.reply-to-thread input[data-name="sub"]:not(.force-show),
+body:not(.board_f) #qr select[name="filetag"],
+#qr.reply-to-thread select[name="filetag"],
+#qr:not(.has-sjis) #sjis-toggle,
+#qr:not(.has-math) #tex-preview-button,
+#qr.tex-preview .textarea > :not(#tex-preview),
+#qr:not(.tex-preview) #tex-preview {
+  display: none;
+}
+.persona {
+  width: 100%;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+}
+.textarea {
+  position: relative;
+  display: -webkit-flex;
+  display: flex;
+}
+#qr .captcha-root {
+  position: relative;
+}
+.move {
+  cursor: move;
+  overflow: hidden;
+}
+#qr .close {
+  float: right;
+  padding: 0 3px;
+}
+#qr select[data-name="thread"] {
+  float: right;
+}
+
+.field::placeholder {
+  color:
+    #AAA;
+  font-size: 13px;
+  opacity: 1;
+}
+
+.persona .field {
+  -webkit-flex: 1;
+  flex: 1;
+  width: 0;
+}
+.field {
+  -moz-box-sizing: border-box;
+  margin: 0px;
+  padding: 2px 4px 3px;
+}
+.captcha-img, .field {
+  background-color:
+    #FFF;
+  border: 1px solid
+  #CCC;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  color:
+    #333;
+  font: 13px sans-serif;
+  outline: none;
+  transition: color .25s, border-color .25s;
+}
+
+.field::placeholder {
+  color:
+    #AAA;
+  font-size: 13px;
+  opacity: 1;
+}
+element {
+}
+#qr.has-captcha textarea.field {
+  height: 9em;
+}
+#qr textarea.field {
+  height: 14.8em;
+  min-height: 9em;
+}
+#qr textarea {
+  min-width: 300px;
+  resize: both;
+}
+.field {
+  -moz-box-sizing: border-box;
+  margin: 0px;
+  padding: 2px 4px 3px;
+}
+.captcha-img, .field {
+  background-color:
+    #FFF;
+  border: 1px solid
+  #CCC;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  color:
+    #333;
+  font: 13px sans-serif;
+  outline: none;
+  transition: color .25s, border-color .25s;
+}
+input[type="text"], input[type="password"], textarea {
+  -webkit-appearance: none;
+  -webkit-border-radius: 0;
+}
+
+/*captcha counter*/
+#qr.captcha-open .captcha-counter {
+  position: absolute;
+  bottom: 3px;
+}
+#qr .captcha-counter {
+  display: block;
+  width: 100%;
+  text-align: center;
+  pointer-events: none;
+}
+
+#file-n-submit, #qr .oekaki {
+
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: stretch;
+  align-items: stretch;
+  height: 25px;
+  margin-top: 1px;
+
+}
+#qr input[type="file"] {
+
+  visibility: hidden;
+  position: absolute;
+
+}
+
+#qr label input[type="checkbox"] {
+  position: relative;
+  top: 2px;
+}
+#qr select {
+  background:
+    white;
+  border: 1px solid
+  #CCC;
+}
+#dump-list-container {
+  display: none;
+  position: relative;
+  overflow-y: hidden;
+  margin-top: 1px;
+}
+[hidden] {
+  display: none !important;
+}
+/* Filename Button */
+#qr-filename-container {
+  -webkit-flex: 1 1 auto;
+  flex: 1 1 auto;
+  width: 0;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  align-items: center;
+  position: relative;
+  padding: 1px;
+}
+ename-container > label, #qr-filename-container > a {
+  -webkit-flex: none;
+  flex: none;
+  margin: 0;
+  margin-right: 0px;
+  margin-right: 3px;
+}
+#qr-filename, .has-file #qr-no-file {
+  display: none;
+}
+input#qr-filename {
+  border: none !important;
+  background: none !important;
+  outline: none;
+}
+#qr-no-file, .has-file #qr-filename {
+  -webkit-flex: 1 1 auto;
+  flex: 1 1 auto;
+  width: 0px;
+  display: inline-block;
+  padding: 0;
+  padding-left: 0px;
+  padding-left: 3px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#qr-filename, .has-file #qr-no-file {
+  display: none;
+}
+
+#qr:not(.has-spoiler) #qr-spoiler-label,
+#file-n-submit:not(.has-file) #qr-spoiler-label,
+.has-file #paste-area,
+.has-file #url-button,
+#file-n-submit:not(.custom-cooldown) #custom-cooldown-button {
+  display: none;
+}
+#qr-filename-container label:not(:hover) > input[type="checkbox"]:not(:focus):not(:checked),
+#qr-filename-container label:not(:hover) > input[type="checkbox"]:not(:focus):not(:checked) ~ :not(.checkbox-letter),
+#qr-filename-container label:hover > .checkbox-letter,
+input[type="checkbox"]:focus ~ .checkbox-letter,
+input[type="checkbox"]:checked ~ .checkbox-letter {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.checkbox-letter, #paste-area, #url-button, #custom-cooldown-button, #dump-button {
+  opacity: 0.6;
+}
+#dump-list {
+  overflow-x: auto;
+  overflow-y: auto;
+  white-space: nowrap;
+  width: 248px;
+  max-height: 248px;
+  min-height: 90px;
+  max-width: 100%;
+  min-width: 100%;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+}

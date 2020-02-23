@@ -1,0 +1,15 @@
+<div class="file">
+    <div class="fileText">
+      File:
+      <a [title]="media.title" target="_blank">{{ media.title }}</a>
+      ({{media.info.contentLength | contentLengthKb}}, {{media.info.height}}x{{media.info.width}})
+    </div>
+    <a class="fileThumb" [href]="baseUrl + 'media/' + media.info.link">
+      <img
+        [src]="baseUrl + 'thumbnail/' + media.thumbnail.link"
+        [alt]="media.mediaSizeKb"
+        [height]="media.thumbnail.height > 0 ? media.thumbnail.height : 85"
+        [width]="media.thumbnail.width > 0 ? media.thumbnail.width : 120"
+      />
+    </a>
+  </div>

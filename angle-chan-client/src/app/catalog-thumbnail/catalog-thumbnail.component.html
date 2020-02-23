@@ -1,0 +1,86 @@
+<div class="thread catalog-thread">
+  <div class="postContainer catalog-container">
+    <div class="post catalog-post">
+      <div class="file">
+        <div class="fileText">
+          <span class="file-info">
+<!--            <a href="https://i.4cdn.org/sp/1575775081466.webm" target="_blank">dongged.webm</a>-->
+<!--            <a href="" download="dongged.webm" class="fa fa-download download-button"></a>-->
+            ({{op.media[0].mediaSizeKb}}, {{op.media[0].info.height}}x{{op.media[0].info.width}})
+          </span>
+          <span class="fileText-original">
+            File: <a href="https://i.4cdn.org/sp/1575775081466.webm" target="_blank">dongged.webm</a>
+            ({{op.media[0].mediaSizeKb}}, {{op.media[0].info.height}}x{{op.media[0].info.width}})
+          </span>
+<!--          <a target="_blank" class="sauce" href="">google</a>-->
+<!--          <a target="_blank" class="sauce" href="2Fsp%2F1575775081466s.jpg">yandex</a>-->
+<!--          <a target="_blank" class="sauce" href="sp%2F1575775081466s.jpg">iqdb</a>-->
+<!--          <a target="_blank" class="sauce" href="%2pg">wait</a>-->
+<!--          <span class="webm-title" data-index="0"><a href="javascript:;"></a></span>-->
+        </div>
+        <a class="fileThumb" href="https://i.4cdn.org/sp/1575775081466.webm" target="_blank">
+<!--          possibly this is a second image that shows up with dif proportions when hovered.-->
+          <img
+            [src]="'thumbnail/' + op.media[0].thumbnail.link"
+            class="catalog-thumb"
+            [alt]="op.media[0].mediaSizeKb"
+            [ngStyle]="{width: op.media[0].thumbnail.width, height: op.media[0].thumbnail.height}">
+<!--          <img src="//i.4cdn.org/sp/1575775081466s.jpg" alt="2.93 MB" data-md5="yhny0MAVz5wT7u6f7jESgA=="-->
+<!--          style="height: 140px; width: 250px;">-->
+        </a>
+      </div>
+      <a class="catalog-link" [routerLink]="['thread', threadNumber]">
+        <img
+          [src]="'thumbnail/' + op.media[0].thumbnail.link"
+          class="catalog-thumb"
+          [ngStyle]="{width: op.media[0].thumbnail.width, height: op.media[0].thumbnail.height}">
+        <div class="werkTyme-filename">dongged.webm</div>
+      </a>
+      <div class="catalog-stats">
+        <span title="Posts / Files / Page">
+          <span class="post-count">405</span> /
+          <span class="file-count">63</span> /
+          <span class="page-count">1</span>
+        </span>
+        <span class="catalog-icons"></span>
+        <a class="menu-button" href="javascript:;">
+          <i class="fa fa-angle-down"></i>
+        </a>
+      </div>
+      <div class="postInfo desktop">
+<!--        <a href="javascript:;" class="watch-thread-link" title="Watch Thread">-->
+<!--        </a>-->
+        <input type="checkbox" name="97463486" value="delete">
+        <span class="subject">{{subject}}</span>
+        <span class="nameBlock">
+          <span class="name">{{op.name}}</span>
+          <span title="United States" class="flag flag-us"></span>
+        </span>
+        <span class="dateTime" data-utc="1575775081">12/07/19(Sat)22:18:01</span>
+        <span class="postNum desktop">
+          <a href="/sp/thread/97463486#p97463486" title="Link to this post">No.</a>
+          <a href="/sp/thread/97463486#q97463486" title="Reply to this post">97463486</a>
+          <span class="page-num" title="This thread is on page 1 in the original index.">[1]</span>
+          <span>[<a href="/sp/thread/97463486" class="replylink">Reply</a>]</span>
+        </span>
+        <a class="menu-button">
+          <i class="fa fa-angle-down"></i>
+        </a>
+        <span class="container"></span>
+      </div>
+
+<!--      message of the top quote-->
+      <blockquote class="postMessage">{{op.text}}</blockquote>
+      <div class="catalog-replies">
+        <div class="catalog-reply" *ngFor="let replyExerpt of catalogReplies">
+          <span>
+            <time [attr.data-utc]="replyExerpt.utc | dateToTime" data-abbrev="1">4h</time>
+            :
+          </span>
+          <a class="catalog-reply-excerpt">{{replyExerpt.text}}</a>
+          <a class="catalog-reply-preview">...</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

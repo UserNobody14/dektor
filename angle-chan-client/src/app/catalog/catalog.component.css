@@ -1,0 +1,28 @@
+element {
+  --tn-w: 250;
+  --tn-h: 140;
+}
+.catalog-small > .catalog-thread {
+  width: 165px;
+  height: 320px;
+}
+.catalog-thread.catalog-thread {
+  margin: 2px;
+}
+div.thread {
+  margin: 0;
+  clear: both;
+}
+.catalog-thread {
+  display: inline-block;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 1px solid
+  transparent;
+  word-wrap: break-word;
+  vertical-align: top;
+  position: relative;
+}
+:host .board {
+  text-align: center;
+}
