@@ -78,34 +78,18 @@ testem.log
 Thumbs.db
 
 HELP.md
-target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**
-!**/src/test/**
+angle-chan-server/target/
+angle-chan-server/!.mvn/wrapper/maven-wrapper.jar
+angle-chan-server/!**/src/main/**
+angle-chan-server/!**/src/test/**
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
 
 ### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
+angle-chan-server/.idea
+angle-chan-server/*.iws
+angle-chan-server/*.iml
+angle-chan-server/*.ipr
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-
-### VS Code ###
-.vscode/
+##personal
+./angle-chan-client/src/assets/*
 
