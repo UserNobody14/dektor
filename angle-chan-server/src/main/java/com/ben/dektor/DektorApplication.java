@@ -13,6 +13,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
 import java.io.FileInputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collections;
 
 @SpringBootApplication
@@ -58,12 +60,13 @@ public class DektorApplication {
             thread.setNumber(0);
             thread.setPosts(Collections.singletonList(jbauer));
             thread.setSubject("my Thread attempt");
+            System.out.println(Path.of("angle-chan-client","src", "assets", "1573343926_1573341745591s.jpg").toString());
 
             // store profile picture
             mediaStore.setContent(m, new FileInputStream(
-                    "/home/benjamin/CodeProjects/Java/dektor/angle-chan-client/src/assets/1573343926_1573341745591s.jpg"));
+                    Path.of(Paths.get("").toAbsolutePath().getParent().toString() ,"angle-chan-client","src", "assets", "1573343926_1573341745591s.jpg").toString()));
 			thumbnailStore.setContent(t, new FileInputStream(
-					"/home/benjamin/CodeProjects/Java/dektor/angle-chan-client/src/assets/1573343887_1573340897764s.jpg"));
+                    Path.of(Paths.get("").toAbsolutePath().getParent().toString(), "angle-chan-client","src", "assets", "1573343887_1573340897764s.jpg").toString()));
 
             // save the user
 //            mediaInfoRepository.save(m);

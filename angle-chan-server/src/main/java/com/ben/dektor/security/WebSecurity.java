@@ -1,6 +1,8 @@
 package com.ben.dektor.security;
 
 //import org.h2.server.web.WebServlet;
+import org.springframework.content.fs.config.EnableFilesystemStores;
+import org.springframework.content.fs.io.FileSystemResourceLoader;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -11,9 +13,14 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+
 
 @Configuration
 @EnableWebSecurity
+@EnableFilesystemStores(basePackages={"com.ben.dektor.store"})
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     @Override
@@ -78,4 +85,18 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 //    registrationBean.addUrlMappings("/console/*");
 //    return registrationBean;
 //}
+
+
+    @Bean
+    File filesystemRoot() {
+        try {
+            return Files.createTempDirectory("").toFile();
+        } catch (IOException ioe) {}
+        return null;
+    }
+
+    @Bean
+    FileSystemResourceLoader fileSystemResourceLoader() {
+        return new FileSystemResourceLoader(filesystemRoot().getAbsolutePath());
+    }
 }
