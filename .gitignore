@@ -4,6 +4,10 @@ target/
 !**/src/main/**
 !**/src/test/**
 
+.gradle
+**/.gradle
+**/gradlew
+**/gradlew.bat
 ### STS ###
 .apt_generated
 .classpath
