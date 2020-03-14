@@ -12,6 +12,13 @@ import {map, tap} from 'rxjs/operators';
 })
 export class ThreadService {
 
+  // TODO: add paged thread service
+  // TODO: modify everything else to work with paged thread service.
+  // TODO: add test services?
+  // TODO: adjust to gradle?
+  // TODO: get actually running on web?
+  // TODO: figure out multiple image upload issue.
+
   constructor(private http: HttpClient) { }
 
   getThreadsHttp(thread: number): Observable<ImmThread> {
