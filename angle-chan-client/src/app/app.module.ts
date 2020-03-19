@@ -40,6 +40,7 @@ import { PostFormComponent } from './post-form/post-form.component';
 import {FileUploadModule} from 'ng2-file-upload';
 import { ContentLengthKbPipe } from './pipes/content-length-kb.pipe';
 import {FormsModule} from '@angular/forms';
+import {RecaptchaFormsModule, RecaptchaModule} from 'ng-recaptcha';
 @NgModule({
   declarations: [
     AppComponent,
@@ -75,6 +76,8 @@ import {FormsModule} from '@angular/forms';
     VgControlsModule,
     VgOverlayPlayModule,
     VgBufferingModule,
+    RecaptchaModule,
+    RecaptchaFormsModule,
     FileUploadModule
   ],
   providers: [ThreadService],

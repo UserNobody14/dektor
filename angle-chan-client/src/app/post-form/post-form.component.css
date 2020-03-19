@@ -29,7 +29,7 @@ input[type='file'] {
 
 /*///////////////////////////*/
 
-#qr {
+.qr {
   position: fixed;
   padding: 1px;
   border: 1px solid transparent;
@@ -37,15 +37,15 @@ input[type='file'] {
   border-radius: 3px 3px 0 0;
 }
 
-#qr {
+.qr {
   z-index: 20;
 }
 
-#overlay, #qp, #ihover, #navlinks, .fixed #header-bar, :host-context(.float) #updater, :host-context(.float) #thread-stats, #qr {
+#overlay, #qp, #ihover, #navlinks, .fixed #header-bar, :host-context(.float) #updater, :host-context(.float) #thread-stats, .qr {
   position: fixed;
 }
 
-#qr, #thread-watcher {
+.qr, #thread-watcher {
   box-shadow: -1px 2px 2px rgba(0, 0, 0, 0.25);
 }
 
@@ -60,22 +60,22 @@ input[type='file'] {
   background-color: inherit;
 }
 
-#qr > form {
+.qr > form {
   max-height: 85vh;
   max-height: calc(100vh - 75px);
   overflow-y: auto;
   overflow-x: hidden;
 }
 
-#qr.forced-anon input[data-name="name"]:not(.force-show),
-#qr.forced-anon input[data-name="sub"]:not(.force-show),
-#qr.reply-to-thread input[data-name="sub"]:not(.force-show),
-body:not(.board_f) #qr select[name="filetag"],
-#qr.reply-to-thread select[name="filetag"],
-#qr:not(.has-sjis) #sjis-toggle,
-#qr:not(.has-math) #tex-preview-button,
-#qr.tex-preview .textarea > :not(#tex-preview),
-#qr:not(.tex-preview) #tex-preview {
+.qr.forced-anon input[data-name="name"]:not(.force-show),
+.qr.forced-anon input[data-name="sub"]:not(.force-show),
+.qr.reply-to-thread input[data-name="sub"]:not(.force-show),
+body:not(.board_f) .qr select[name="filetag"],
+.qr.reply-to-thread select[name="filetag"],
+.qr:not(.has-sjis) #sjis-toggle,
+.qr:not(.has-math) #tex-preview-button,
+.qr.tex-preview .textarea > :not(#tex-preview),
+.qr:not(.tex-preview) #tex-preview {
   display: none;
 }
 .persona {
@@ -90,18 +90,18 @@ body:not(.board_f) #qr select[name="filetag"],
   display: -webkit-flex;
   display: flex;
 }
-#qr .captcha-root {
+.qr .captcha-root {
   position: relative;
 }
 .move {
   cursor: move;
   overflow: hidden;
 }
-#qr .close {
+.qr .close {
   float: right;
   padding: 0 3px;
 }
-#qr select[data-name="thread"] {
+.qr select[data-name="thread"] {
   float: right;
 }
 
@@ -144,14 +144,14 @@ body:not(.board_f) #qr select[name="filetag"],
 }
 element {
 }
-#qr.has-captcha textarea.field {
+.qr.has-captcha textarea.field {
   height: 9em;
 }
-#qr textarea.field {
+.qr textarea.field {
   height: 14.8em;
   min-height: 9em;
 }
-#qr textarea {
+.qr textarea {
   min-width: 300px;
   resize: both;
 }
@@ -179,18 +179,18 @@ input[type="text"], input[type="password"], textarea {
 }
 
 /*captcha counter*/
-#qr.captcha-open .captcha-counter {
+.qr.captcha-open .captcha-counter {
   position: absolute;
   bottom: 3px;
 }
-#qr .captcha-counter {
+.qr .captcha-counter {
   display: block;
   width: 100%;
   text-align: center;
   pointer-events: none;
 }
 
-#file-n-submit, #qr .oekaki {
+#file-n-submit, .qr .oekaki {
 
   display: -webkit-flex;
   display: flex;
@@ -200,18 +200,18 @@ input[type="text"], input[type="password"], textarea {
   margin-top: 1px;
 
 }
-#qr input[type="file"] {
+.qr input[type="file"] {
 
   visibility: hidden;
   position: absolute;
 
 }
 
-#qr label input[type="checkbox"] {
+.qr label input[type="checkbox"] {
   position: relative;
   top: 2px;
 }
-#qr select {
+.qr select {
   background:
     white;
   border: 1px solid
@@ -227,7 +227,7 @@ input[type="text"], input[type="password"], textarea {
   display: none !important;
 }
 /* Filename Button */
-#qr-filename-container {
+.qr-filename-container {
   -webkit-flex: 1 1 auto;
   flex: 1 1 auto;
   width: 0;
@@ -238,22 +238,22 @@ input[type="text"], input[type="password"], textarea {
   position: relative;
   padding: 1px;
 }
-ename-container > label, #qr-filename-container > a {
+.qr-filename-container > label, .qr-filename-container > a {
   -webkit-flex: none;
   flex: none;
   margin: 0;
   margin-right: 0px;
   margin-right: 3px;
 }
-#qr-filename, .has-file #qr-no-file {
+.qr-filename, .has-file #qr-no-file {
   display: none;
 }
-input#qr-filename {
+input.qr-filename {
   border: none !important;
   background: none !important;
   outline: none;
 }
-#qr-no-file, .has-file #qr-filename {
+#qr-no-file, .has-file .qr-filename {
   -webkit-flex: 1 1 auto;
   flex: 1 1 auto;
   width: 0px;
@@ -266,20 +266,20 @@ input#qr-filename {
   white-space: nowrap;
 }
 
-#qr-filename, .has-file #qr-no-file {
+.qr-filename, .has-file #qr-no-file {
   display: none;
 }
 
-#qr:not(.has-spoiler) #qr-spoiler-label,
+.qr:not(.has-spoiler) #qr-spoiler-label,
 #file-n-submit:not(.has-file) #qr-spoiler-label,
 .has-file #paste-area,
 .has-file #url-button,
 #file-n-submit:not(.custom-cooldown) #custom-cooldown-button {
   display: none;
 }
-#qr-filename-container label:not(:hover) > input[type="checkbox"]:not(:focus):not(:checked),
-#qr-filename-container label:not(:hover) > input[type="checkbox"]:not(:focus):not(:checked) ~ :not(.checkbox-letter),
-#qr-filename-container label:hover > .checkbox-letter,
+.qr-filename-container label:not(:hover) > input[type="checkbox"]:not(:focus):not(:checked),
+.qr-filename-container label:not(:hover) > input[type="checkbox"]:not(:focus):not(:checked) ~ :not(.checkbox-letter),
+.qr-filename-container label:hover > .checkbox-letter,
 input[type="checkbox"]:focus ~ .checkbox-letter,
 input[type="checkbox"]:checked ~ .checkbox-letter {
   position: absolute;

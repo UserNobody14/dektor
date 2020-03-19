@@ -2,32 +2,39 @@
 import {Record, Set, List} from 'immutable';
 import {ImmMediaInfo, MediaContainer, MediaInfo} from './media-container';
 import {isUndefined} from 'util';
+import {GenericThread} from './thread';
 
-export interface Post {
+export interface GenericPost<T> {
+  text: string;
+  number: number;
+  // date: string;
+  name: string;
+  replies: number[];
+  // replyPosts: List<ImmPost>;
+  replyingTo: Post[];
+  media?: T;
+  // image: string;
+  utc: string;
+}
+
+export interface Post extends GenericPost<List<ImmMediaInfo>> {
   text: string;
   number: number;
   // date: string;
   name: string;
   replies: number[];
   inlinedPosts: Set<number>;
+  //add in all the changes to threads and such here, and try to get it to go back.
+  //TODO: alot.
   // replyPosts: List<ImmPost>;
   replyingTo: Post[];
-  media: List<ImmMediaInfo>;
+  media?: List<ImmMediaInfo>;
   // image: string;
   utc: string;
 }
-export interface InputPost {
-  text: string;
-  number: number;
-  // date: string;
-  name: string;
-  replies: number[];
-  // inlinedPosts: Set<number>;
-  // replyPosts: List<ImmPost>;
-  replyingTo: Post[];
-  mediaC?: MediaContainer[];
-  // image: string;
-  utc: string;
+
+export interface InputPost extends GenericPost<MediaContainer[]> {
+  thread?: GenericThread<InputPost>;
 }
 
 const postRecord = Record<Post>({
@@ -46,27 +53,29 @@ const postRecord = Record<Post>({
 
 export class ImmPost extends postRecord implements Post {
 
-  constructor(post: Partial<Post> | Partial<InputPost>, mediaInfo?: MediaContainer[]) {
-    let inP;
-    if ('mediaC' in post) {
-      inP = {media: List(post.mediaC), ...post};
-    } else {
-      inP = post;
-      if (mediaInfo) {
-        inP.media = List(mediaInfo).map(a => new ImmMediaInfo(a));
-      }
-    }
-    super(inP);
+  constructor(
+    post: Partial<GenericPost<MediaContainer[]>> | Partial<Post>,
+    mediaInfo?: MediaContainer[]) {
+      const ls: List<ImmMediaInfo> = List(post.media).map(a => new ImmMediaInfo(a));
+      const med: Partial<Post> = {
+        ...post,
+        media: ls,
+      };
+      super(med);
   }
+
   getName(): string {
     return this.get('name');
   }
+
   setName(name: string): this {
     return this.set('name', name);
   }
+
   getText(): string {
     return this.get('text');
   }
+
   setText(text: string): this {
     return this.set('text', text);
   }

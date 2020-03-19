@@ -12,3 +12,7 @@ task runBuild(type: NpmTask) {
   // serve angular
   args = ['run', 'build']
 }
+repositories {
+  mavenCentral()
+}
+

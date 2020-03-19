@@ -1,15 +1,21 @@
 import { State, Selector, Action, StateContext } from '@ngxs/store';
 import { ImmThread } from '../../models/thread';
 import {List, Set, Record} from 'immutable';
-import {GetPostsForThread, InlineReply, RemoveInliningForReply, ShowReplyInPost, UnShowReplyInPost} from './thread.actions';
+import {GetNextPage, GetPostsForThread, InlineReply, RemoveInliningForReply, ShowReplyInPost, UnShowReplyInPost} from './thread.actions';
 import { ThreadService } from '../../services/thread.service';
 import { tap } from 'rxjs/operators';
 import {ImmPost} from '../../models/post';
 import {isNull, isUndefined} from 'util';
 import {Observable} from 'rxjs';
 
+
 function findPostIndex(posts: List<ImmPost>, n: number) {
   return posts.findIndex(a => a.get('number') === n);
+}
+function mustNotBeNull(item: number) {
+  if(item === null || item === undefined) {
+    throw Error;
+  }
 }
 // function findInlined(posts: List<ImmPost>, n: number) {
 //   const allPosts: List<ImmPost> = posts.flatMap(pp => pp.get('replyPosts'));
@@ -78,68 +84,6 @@ export class ThreadState {
           })
         );
     }
-    // @Action(ShowReplyInPost)
-    // showReplyInPost({patchState, getState}: StateContext<ThreadStateModel>, {post, reply}: ShowReplyInPost) {
-    //   const thread = getState().thread;
-    //   const inline = getState().alreadyInlinedPosts;
-    //   console.log('post: ' + post, 'reply: ' + reply);
-    //   const postList = thread.get('posts');
-    //   const postIndex = findPostIndex(postList, post); // postList.findIndex(a => a.get('number') === post);
-    //   const relevantPost = postList.get(postIndex);
-    //   const replyIndex = findPostIndex(postList, reply); // postList.findIndex(a => a.get('number') === reply);
-    //   const relevantReply = !inline.has(reply) ? postList.get(replyIndex) : findInlined(postList, reply);
-    //   const removalPath = findInlinePath(postList, reply);
-    //   console.log('removalPath: ', removalPath);
-    //   // console.log('get in:' postList.g)
-    //   const withRemovedReply = replyIndex !== -1 ?
-    //     postList.remove(replyIndex) : inline.has(reply) ? postList.removeIn(removalPath) : postList;
-    //   console.log('withRemoved reply', withRemovedReply.toJS(), 'member of', inline.has(reply), 'member of', replyIndex);
-    //   // const oldReplies = relevantPost.get('replyPosts');
-    //   // const newReplies = oldReplies.push(relevantReply);
-    //   // console.log('old: ', oldReplies.toJS(), 'new', newReplies.toJS());
-    //   console.log(relevantReply.toJS());
-    //   const insertionPost = replyIndex !== -1 ?
-    //     relevantPost.set('replyPosts', relevantPost.get('replyPosts').push(relevantReply)) :
-    //     inline.has(reply) ?
-    //     relevantPost.set('replyPosts', relevantPost.get('replyPosts').push(relevantReply)) : relevantPost;
-    //   console.log('insertion Post: ', insertionPost.toJS());
-    //   // postIndex = postList.findIndex(a => a.get('number') === post);
-    //   const newpostIndex = findPostIndex(withRemovedReply, post); // withRemovedReply.findIndex(a => a.get('number') === post);
-    //   const withInsertedReplyPost = withRemovedReply.set(newpostIndex, insertionPost);
-    //   console.log(thread.toJS(), postList.toJS(), 'index: ' + postIndex);
-    //   console.log(`for post: ${post} adding reply: ${reply}`);
-    //   console.log('with inserted reply post', withInsertedReplyPost.toJS(), 'index' , newpostIndex);
-    //   patchState({thread: thread.set('posts', withInsertedReplyPost),
-    //   alreadyInlinedPosts: inline.add(reply)});
-    // }
-    // @Action(UnShowReplyInPost)
-    // unShowReplyInPost(
-    //   {patchState, getState}: StateContext<ThreadStateModel>,
-    //   {post, reply}: UnShowReplyInPost) {
-    //   const thread = getState().thread;
-    //   const newInliningForPosts = getState().alreadyInlinedPosts;
-    //   const postList = thread.get('posts');
-    //   const postIndex = findPostIndex(postList, post); //  postList.findIndex(a => a.get('number') === post);
-    //   const relevantPost = postList.get(postIndex);
-    //   console.log(relevantPost.toJS());
-    //   const removedPostsReplies = relevantPost.get('replyPosts');
-    //   const replyIndex = findPostIndex(removedPostsReplies, reply); //  removedPostsReplies.findIndex(a => a.get('number') === reply);
-    //   // const relevantReply = postList.get(replyIndex);
-    //   const relevantReply = removedPostsReplies.get(replyIndex);
-    //   const withReinsertedReply = relevantReply !== undefined ? postList.push(
-    //     relevantReply) : postList;
-    //   console.log('withReinsertedReply: ', withReinsertedReply.toJS());
-    //   console.log('relevant reply', relevantReply, 'relReplies:', removedPostsReplies.toJS());
-    //   const insertionPost = relevantPost.set('replyPosts', removedPostsReplies.remove(replyIndex));
-    //   const withInsertedPost = withReinsertedReply.set(postIndex, insertionPost);
-    //   const reSortNumbers = withInsertedPost.sortBy(postItem => postItem.number);
-    //   console.log(thread.toJS(), postList.toJS(), 'index: ' + postIndex);
-    //   console.log(`for post: ${post} removing reply: ${reply}`);
-    //   console.log(withInsertedPost.toJS(), insertionPost.toJS());
-    //   patchState({thread: thread.set('posts', reSortNumbers),
-    //   alreadyInlinedPosts: newInliningForPosts.remove(reply)});
-    //
-    // }
     @Action(InlineReply)
   inlineReply(
       {patchState, getState}: StateContext<ThreadStateModel>,
@@ -160,8 +104,9 @@ export class ThreadState {
     {patchState, getState}: StateContext<ThreadStateModel>,
     {post, reply}: RemoveInliningForReply
   ) {
-    const thread = getState().thread;
-    const newInliningForPosts = getState().alreadyInlinedPosts;
+    const st = getState();
+    const thread = st.thread;
+    const newInliningForPosts = st.alreadyInlinedPosts;
     const postList = thread.get('posts');
     const postIndex = findPostIndex(postList, post); //  postList.findIndex(a => a.get('number') === post);
     const relevantPost = postList.get(postIndex);
@@ -170,6 +115,32 @@ export class ThreadState {
     patchState({thread: thread.set('posts', withoutReply),
       alreadyInlinedPosts: newInliningForPosts.remove(reply)});
 
+  }
+
+//  For Paging:
+  @Action(GetNextPage)
+  getNextPage(
+    {patchState, getState}: StateContext<ThreadStateModel>,
+    { payload }: GetNextPage
+  ) {
+      const st = getState();
+      const page = st.pageNumber;
+      //if the threadnumber in the payload is different, reset;
+      // edge cases: st.thread.number is null
+      //pageNumber is null
+      //payload is null
+      //a combination of these.
+      const currentThread = st.thread.number;
+      const threadNumber = payload ? payload : currentThread;
+      mustNotBeNull(threadNumber);
+      const pageNumber = payload ?
+      payload !== currentThread ? 0 : page + 1 : page + 1;
+
+      return this.threadService.getThreadsHttp(threadNumber).pipe(
+        tap(thread => {
+          patchState({thread, pageNumber});
+        })
+      );
   }
 
 }

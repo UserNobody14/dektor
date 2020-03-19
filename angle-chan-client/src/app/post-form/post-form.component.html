@@ -19,260 +19,266 @@
     <span class="drag-over-title">Drop the file</span>
   </div>
 </div>
-
-<div
-  class="dialog has-spoiler show-new-thread-option reply-to-thread has-captcha captcha-v2 captcha-open focus"
-  id="qr"
-  style="top: 50px; right: 0px;"
->
-  <div class="move">
-    <label>
-      <input id="autohide" title="Auto-hide" type="checkbox" />
-      Quick Reply
-    </label>
-    <a class="close" href="javascript:" title="Close">×</a>
-    <select data-name="thread" title="Create a new thread / Reply">
-      <option value="new">New thread</option>
-      <option value="70042220">Thread 70042220</option>
-    </select>
-  </div>
-  <form>
-    <div class="persona">
-      <button id="sjis-toggle" title="Toggle Mona font" type="button">∀</button>
-      <button id="tex-preview-button" title="Preview TeX" type="button">
-        T
-        <sub>E</sub>
-        X
-      </button>
-      <input
-        [(ngModel)]="post.name"
-        class="field"
-        data-name="name"
-        list="list-name"
-        name="name"
-        placeholder="Name"
-        size="1"
-      />
-      <input
-        class="field"
-        data-name="sub"
-        disabled
-        list="list-sub"
-        name="sub"
-        name="email"
-        placeholder="Subject"
-        size="1"
-      />
+<form #captchaProtectedForm="ngForm">
+  <div
+    class="qr dialog has-spoiler show-new-thread-option reply-to-thread has-captcha captcha-v2 captcha-open focus"
+    style="top: 50px; right: 0px;"
+  >
+    <div class="move">
+      <label>
+        <input id="autohide" title="Auto-hide" type="checkbox"/>
+        Quick Reply
+      </label>
+      <a class="close" href="javascript:" title="Close">×</a>
+      <select data-name="thread" title="Create a new thread / Reply">
+        <option value="new">New thread</option>
+        <option value="70042220">Thread 70042220</option>
+      </select>
     </div>
-    <div class="textarea">
+    <form>
+      <div class="persona">
+        <button id="sjis-toggle" title="Toggle Mona font" type="button">∀</button>
+        <button id="tex-preview-button" title="Preview TeX" type="button">
+          T
+          <sub>E</sub>
+          X
+        </button>
+        <input
+          [(ngModel)]="post.name"
+          class="field"
+          data-name="name"
+          list="list-name"
+          name="name"
+          placeholder="Name"
+          size="1"
+        />
+        <input
+          class="field"
+          data-name="sub"
+          disabled
+          list="list-sub"
+          name="sub"
+          name="email"
+          placeholder="Subject"
+          size="1"
+        />
+      </div>
+      <div class="textarea">
       <textarea
         [(ngModel)]="post.text"
         class="field"
         data-name="com"
-        placeholder="Comment"
-      ></textarea>
-      <span hidden="" id="char-count">11</span>
-      <div id="tex-preview"></div>
-    </div>
-    <div class="captcha-root">
-      <div class="captcha-container" data-widget-i-d="0">
-        <div style="width: 304px; height: 78px;">
-          <div>
-            <iframe
-              frameborder="0"
-              height="78"
-              name="a-hf9ei9sc6uln"
-              role="presentation"
-              sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox allow-storage-access-by-user-activation"
-              scrolling="no"
-              src="https://www.google.com/recaptcha/api2/anchor?ar=1&amp;k=6Ldp2bsSAAAAAAJ5uyx_lx34lJeEpTLVkP5k04qc&amp;co=aHR0cHM6Ly9ib2FyZHMuNGNoYW5uZWwub3JnOjQ0Mw..&amp;hl=en&amp;v=mhgGrlTs_PbFQOW4ejlxlxZn&amp;theme=light&amp;size=normal&amp;cb=6pgy8xwjm2i2"
-              width="304"
-            ></iframe>
-          </div>
-          <textarea
-            class="g-recaptcha-response"
-            id="g-recaptcha-response"
-            name="g-recaptcha-response"
-            style="width: 250px; height: 40px; border: 1px solid rgb(193, 193, 193); margin: 10px 25px; padding: 0px; resize: none; display: none;"
-          ></textarea>
+        placeholder="Comment">
+      </textarea>
+        <span hidden="" id="char-count">11</span>
+        <div id="tex-preview"></div>
+      </div>
+      <re-captcha
+        [(ngModel)]="captcha"
+        required
+        name="captcha"
+        siteKey="6LcOceEUAAAAAPoa-6B_zYkpHxV5-eBgl4-ASrA4"></re-captcha>
+      <!--    <div class="captcha-root">-->
+      <!--      <div class="captcha-container" data-widget-i-d="0">-->
+      <!--        <div style="width: 304px; height: 78px;">-->
+      <!--          <div>-->
+      <!--            <iframe-->
+      <!--              frameborder="0"-->
+      <!--              height="78"-->
+      <!--              name="a-hf9ei9sc6uln"-->
+      <!--              role="presentation"-->
+      <!--              sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox allow-storage-access-by-user-activation"-->
+      <!--              scrolling="no"-->
+      <!--              src="https://www.google.com/recaptcha/api2/anchor?ar=1&amp;k=6Ldp2bsSAAAAAAJ5uyx_lx34lJeEpTLVkP5k04qc&amp;co=aHR0cHM6Ly9ib2FyZHMuNGNoYW5uZWwub3JnOjQ0Mw..&amp;hl=en&amp;v=mhgGrlTs_PbFQOW4ejlxlxZn&amp;theme=light&amp;size=normal&amp;cb=6pgy8xwjm2i2"-->
+      <!--              width="304"-->
+      <!--            ></iframe>-->
+      <!--          </div>-->
+      <!--          <textarea-->
+      <!--            class="g-recaptcha-response"-->
+      <!--            id="g-recaptcha-response"-->
+      <!--            name="g-recaptcha-response"-->
+      <!--            style="width: 250px; height: 40px; border: 1px solid rgb(193, 193, 193); margin: 10px 25px; padding: 0px; resize: none; display: none;">-->
+      <!--          </textarea>-->
+      <!--        </div>-->
+      <!--      </div>-->
+      <!--      <div class="captcha-counter">-->
+      <!--        <a href="javascript:">Captchas: 0</a>-->
+      <!--      </div>-->
+      <!--    </div>-->
+      <div id="dump-list-container">
+        <div id="dump-list">
+          <a
+            class="qr-preview has-file"
+            data-height="1158"
+            data-type="image/jpeg"
+            data-width="800"
+            draggable="true"
+            href="javascript:"
+            id="selected"
+            title="one-piece-63739.jpg (187 KB)"
+          >
+            <a class="remove fa fa-times-circle" style="" title="Remove"></a>
+            <label class="qr-preview-spoiler">
+              <input type="checkbox"/>
+              Spoiler
+            </label>
+            <span>&gt;&gt;70042270 </span>
+          </a>
         </div>
+        <a href="javascript:" id="add-post" title="Add a post">+</a>
       </div>
-      <div class="captcha-counter">
-        <a href="javascript:">Captchas: 0</a>
-      </div>
-    </div>
-    <div id="dump-list-container">
-      <div id="dump-list">
-        <a
-          class="qr-preview has-file"
-          data-height="1158"
-          data-type="image/jpeg"
-          data-width="800"
-          draggable="true"
-          href="javascript:"
-          id="selected"
-          style='background-image: url("blob:https://boards.4channel.org/ed4cd414-6fe2-40f7-97b5-a25271f2f736");'
-          title="one-piece-63739.jpg (187 KB)"
-        >
-          <a class="remove fa fa-times-circle" style="" title="Remove"></a>
-          <label class="qr-preview-spoiler">
-            <input type="checkbox" />
-            Spoiler
-          </label>
-          <span>&gt;&gt;70042270 </span>
-        </a>
-      </div>
-      <a href="javascript:" id="add-post" title="Add a post">+</a>
-    </div>
-    <div class="oekaki has-file" hidden="">
-      <input id="qr-draw-button" type="button" value="Draw" />
-      <label>
-        <span>Width:</span>
-        <input
-          class="field"
-          name="oekaki-width"
-          size="1"
-          type="number"
-          value="400"
-        />
-      </label>
-      <label>
-        <span>Height:</span>
-        <input
-          class="field"
-          name="oekaki-height"
-          size="1"
-          type="number"
-          value="400"
-        />
-      </label>
-      <span class="oekaki-bg" title="Background Color">
-        <input checked="" name="oekaki-bg" type="checkbox" />
-        <input name="oekaki-bgcolor" type="color" value="#ffffff" />
+      <div class="oekaki has-file" hidden="">
+        <input id="qr-draw-button" type="button" value="Draw"/>
+        <label>
+          <span>Width:</span>
+          <input
+            class="field"
+            name="oekaki-width"
+            size="1"
+            type="number"
+            value="400"
+          />
+        </label>
+        <label>
+          <span>Height:</span>
+          <input
+            class="field"
+            name="oekaki-height"
+            size="1"
+            type="number"
+            value="400"
+          />
+        </label>
+        <span class="oekaki-bg" title="Background Color">
+        <input checked="" name="oekaki-bg" type="checkbox"/>
+        <input name="oekaki-bgcolor" type="color" value="#ffffff"/>
       </span>
-    </div>
-    <div [class.has-file]="uploader?.queue?.length" id="file-n-submit">
-      <input id="qr-file-button" type="button" value="Files" />
-      <span class="field" id="qr-filename-container"
-        ><span id="qr-no-file">No selected file</span
-        ><input
+      </div>
+      <div [class.has-file]="uploader?.queue?.length" id="file-n-submit">
+        <input id="qr-file-button" type="button" value="Files"/>
+        <span class="field qr-filename-container">
+        <span id="qr-no-file">No selected file</span>
+        <input
           data-name="filename"
-          id="qr-filename"
+          class="qr-filename"
           spellcheck="false"
-          title="one-piece-63739.jpg (187 KB)"/><label id="qr-spoiler-label"
-          ><input
-            id="qr-file-spoiler"
-            title="Spoiler image"
-            type="checkbox"
-          /><a class="checkbox-letter">S</a></label
-        ><a id="qr-oekaki-button" title="Edit in Tegaki"
-          ><i class="fa fa-edit"></i></a
-        ><a href="javascript:" id="qr-filerm" title="Remove file"
-          ><i class="fa fa-times-circle"></i></a
-        ><a id="url-button" title="Post from URL"><i class="fa fa-link"></i></a
-        ><a
+          title="one-piece-63739.jpg (187 KB)"/><label id="qr-spoiler-label">
+        <input
+          class="qr-file-spoiler"
+          title="Spoiler image"
+          type="checkbox"
+        /><a class="checkbox-letter">S</a></label>
+        <a id="qr-oekaki-button" title="Edit in Tegaki">
+        <i class="fa fa-edit"></i></a>
+        <a id="qr-filerm" title="Remove file">
+        <i class="fa fa-times-circle"></i></a>
+        <a id="url-button" title="Post from URL">
+          <i class="fa fa-link"></i></a>
+        <a
           class="fa fa-clipboard"
           contenteditable="true"
           hidden=""
           id="paste-area"
           tabindex="-1"
-          title="Select to paste images"
-        ></a
-        ><a
+          title="Select to paste images">
+        </a>
+        <a
           class="disabled"
           id="custom-cooldown-button"
-          title="Toggle custom cooldown"
-          ><i class="fa fa-clock-o"></i></a
-        ><a id="dump-button" title="Dump list"
-          ><i class="fa fa-plus-square"></i></a
-      ></span>
-      <input type="submit" value="Submit" />
-    </div>
-    <select data-default="4" name="filetag">
-      <option value="0">Hentai</option>
-      <option value="6">Porn</option>
-      <option value="1">Japanese</option>
-      <option value="2">Anime</option>
-      <option value="3">Game</option>
-      <option value="5">Loop</option>
-      <option selected="" value="4">Other</option>
-    </select>
-    <input multiple="" type="file" />
-  </form>
-  <datalist id="list-name"></datalist>
-  <datalist id="list-email"></datalist>
-  <datalist id="list-sub"></datalist>
-</div>
+          title="Toggle custom cooldown">
+        <i class="fa fa-clock-o"></i></a>
+        <a id="dump-button" title="Dump list">
+        <i class="fa fa-plus-square"></i></a>
+        </span>
+<!--        <input type="submit" value="Submit"/>-->
+        <button (click)="uploadFiles()" [disabled]="!captchaProtectedForm.form.valid">Submit</button>
 
+      </div>
+      <select data-default="4" name="filetag">
+        <option value="0">Hentai</option>
+        <option value="6">Porn</option>
+        <option value="1">Japanese</option>
+        <option value="2">Anime</option>
+        <option value="3">Game</option>
+        <option value="5">Loop</option>
+        <option selected="" value="4">Other</option>
+      </select>
+      <input multiple="" type="file"/>
+    </form>
+    <datalist id="list-name"></datalist>
+    <datalist id="list-email"></datalist>
+    <datalist id="list-sub"></datalist>
+  </div>
+</form>
 <!--Upload queue table? -->
 
 <table class="table">
   <thead>
-    <tr>
-      <th width="50%">Name</th>
-      <th>Size</th>
-      <th>Progress</th>
-      <th>Status</th>
-      <th>Actions</th>
-    </tr>
+  <tr>
+    <th width="50%">Name</th>
+    <th>Size</th>
+    <th>Progress</th>
+    <th>Status</th>
+    <th>Actions</th>
+  </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let item of uploader.queue">
-      <td>
-        <strong>{{ item?.file?.name }}</strong>
-      </td>
-      <td *ngIf="uploader.options.isHTML5" nowrap>
-        {{ item?.file?.size / 1024 / 1024 | number: ".2" }} MB
-      </td>
-      <td *ngIf="uploader.options.isHTML5">
-        <div class="progress" style="margin-bottom: 0;">
-          <div
-            [ngStyle]="{ width: item.progress + '%' }"
-            class="progress-bar"
-            role="progressbar"
-          ></div>
+  <tr *ngFor="let item of uploader.queue">
+    <td>
+      <strong>{{ item?.file?.name }}</strong>
+    </td>
+    <td *ngIf="uploader.options.isHTML5" nowrap>
+      {{ item?.file?.size / 1024 / 1024 | number: ".2" }} MB
+    </td>
+    <td *ngIf="uploader.options.isHTML5">
+      <div class="progress" style="margin-bottom: 0;">
+        <div
+          [ngStyle]="{ width: (progressItem?.map?.get(item?.file?.name) | async) + '%' }"
+          class="progress-bar"
+          role="progressbar">
         </div>
-      </td>
-      <td class="text-center">
-        <span *ngIf="item.isSuccess"
-          ><i class="glyphicon glyphicon-ok"></i
-        ></span>
-        <span *ngIf="item.isCancel"
-          ><i class="glyphicon glyphicon-ban-circle"></i
-        ></span>
-        <span *ngIf="item.isError"
-          ><i class="glyphicon glyphicon-remove"></i
-        ></span>
-      </td>
-      <td nowrap>
-        <button
-          (click)="item.upload()"
-          [disabled]="item.isReady || item.isUploading || item.isSuccess"
-          class="btn btn-success btn-xs"
-          type="button"
-        >
-          <span class="glyphicon glyphicon-upload"></span>
-          Upload
-        </button>
-        <button
-          (click)="item.cancel()"
-          [disabled]="!item.isUploading"
-          class="btn btn-warning btn-xs"
-          type="button"
-        >
-          <span class="glyphicon glyphicon-ban-circle"></span>
-          Cancel
-        </button>
-        <button
-          (click)="item.remove()"
-          class="btn btn-danger btn-xs"
-          type="button"
-        >
-          <span class="glyphicon glyphicon-trash"></span>
-          Remove
-        </button>
-      </td>
-    </tr>
+      </div>
+    </td>
+    <td class="text-center">
+        <span *ngIf="item.isSuccess">
+        <i class="glyphicon glyphicon-ok"></i>
+        </span>
+      <span *ngIf="item.isCancel">
+      <i class="glyphicon glyphicon-ban-circle"></i>
+      </span>
+      <span *ngIf="item.isError">
+      <i class="glyphicon glyphicon-remove"></i>
+      </span>
+    </td>
+    <td nowrap>
+      <button
+        (click)="item.upload()"
+        [disabled]="item.isReady || item.isUploading || item.isSuccess"
+        class="btn btn-success btn-xs"
+        type="button"
+      >
+        <span class="glyphicon glyphicon-upload"></span>
+        Upload
+      </button>
+      <button
+        (click)="item.cancel()"
+        [disabled]="!item.isUploading"
+        class="btn btn-warning btn-xs"
+        type="button"
+      >
+        <span class="glyphicon glyphicon-ban-circle"></span>
+        Cancel
+      </button>
+      <button
+        (click)="item.remove()"
+        class="btn btn-danger btn-xs"
+        type="button"
+      >
+        <span class="glyphicon glyphicon-trash"></span>
+        Remove
+      </button>
+    </td>
+  </tr>
   </tbody>
 </table>
 

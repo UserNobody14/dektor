@@ -25,7 +25,7 @@ export class ThreadService {
     return this.http.get<InputThread>('/api/thread/' + thread).pipe(
       map((each: InputThread) => {
         const newEach: any = each;
-        newEach.posts = List(each.posts).map(a => new ImmPost(a, a.mediaC));
+        newEach.posts = List(each.posts).map(a => new ImmPost(a));
         console.log('new each', newEach);
         return newEach;
       }),

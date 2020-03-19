@@ -1,16 +1,13 @@
 import { List, Record } from 'immutable';
 import {ImmPost, InputPost, Post} from './post';
-export interface Thread {
-  posts: List<ImmPost>;
-  // originalPost: ImmPost;
+export interface GenericThread<T> {
+  posts?: T;
   number: number;
   subject: string;
 }
-export interface InputThread {
-  posts: InputPost[];
-  // originalPost: ImmPost;
-  number: number;
-  subject: string;
+export interface Thread extends GenericThread<List<ImmPost>> {
+}
+export interface InputThread extends GenericThread<InputPost[]> {
 }
 const threadRecord = Record<Thread>({
   posts: List<ImmPost>([]),

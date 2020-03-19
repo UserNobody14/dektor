@@ -1,10 +1,12 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {FileUploader} from 'ng2-file-upload';
 import {PostService} from '../services/post.service';
 import {environment} from '../../environments/environment';
 import {UploadService} from '../services/upload.service';
 import {List} from 'immutable';
 import {ImmPost, InputPost} from '../models/post';
+import {UploadObserver} from '../models/upload-observer';
+import {mergeMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-post-form',
@@ -14,7 +16,7 @@ import {ImmPost, InputPost} from '../models/post';
 export class PostFormComponent implements OnInit {
 
   constructor(private postService: PostService, private uploadService: UploadService) { }
-  progressItem: any;
+  progressItem: UploadObserver;
 
   baseUrl = environment.apiUrl;
 
@@ -23,6 +25,10 @@ export class PostFormComponent implements OnInit {
   uploader: FileUploader;
   isDropOver: boolean;
   post: InputPost = new ImmPost({}).toJS();
+
+  captcha: string;
+  @Input() thread: string;
+  @Input() board: string;
 
   makePost() {
 
@@ -47,6 +53,7 @@ export class PostFormComponent implements OnInit {
 
   fileOverAnother(e: any): void {
     this.isDropOver = e;
+
   }
 
   fileClicked() {
@@ -59,7 +66,17 @@ export class PostFormComponent implements OnInit {
 
   uploadFiles() {
     const files: File[] = this.uploader.queue.map(fil => fil._file);
-    this.progressItem = this.uploadService.upload(List(files), 1);
+    this.progressItem = this.uploadService.uploadObserved(List(files), 1);
+    this.progressItem.mediaContainer.pipe(
+      mergeMap(media => {
+        this.post.media = media;
+        return this.postService.post(this.post, this.captcha);
+      })
+    ).subscribe(post => {
+        console.log(post);
+      }
+    );
   }
+//  success Object.
 
 }
