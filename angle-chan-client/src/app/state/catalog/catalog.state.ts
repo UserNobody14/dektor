@@ -4,6 +4,7 @@ import {ImmThread} from '../../models/thread';
 import {List} from 'immutable';
 import {CatalogService} from '../../services/catalog.service';
 import {tap} from 'rxjs/operators';
+import {Injectable} from '@angular/core';
 
 export interface CatalogStateModel {
   board: string;
@@ -17,6 +18,7 @@ export interface CatalogStateModel {
     threads: List<ImmThread>([])
   }
 })
+@Injectable()
 export class CatalogState {
   constructor(private catalogService: CatalogService) { }
 

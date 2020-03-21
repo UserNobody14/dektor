@@ -23,10 +23,10 @@ import { MediaContainerComponent } from './media-container/media-container.compo
 // import {VgControlsModule} from 'videogular2/controls';
 // import {VgOverlayPlayModule} from 'videogular2/overlay-play';
 // import {VgBufferingModule} from 'videogular2/buffering';
-import {VgCoreModule} from 'videogular2/compiled/core';
-import {VgOverlayPlayModule} from 'videogular2/compiled/overlay-play';
-import {VgBufferingModule} from 'videogular2/compiled/buffering';
-import {VgControlsModule} from 'videogular2/compiled/controls';
+import {VgCoreModule} from 'ngx-videogular';
+import {VgOverlayPlayModule} from 'ngx-videogular';
+import {VgBufferingModule} from 'ngx-videogular';
+import {VgControlsModule} from 'ngx-videogular';
 import { VideoContainerComponent } from './video-container/video-container.component';
 import { ScrubBarThumbnailsDirective } from './scrub-thumbnails/scrub-bar-thumbnails.directive';
 import { ScrubBarThumbnailPreviewComponent } from './scrub-bar-thumbnail-preview/scrub-bar-thumbnail-preview.component';

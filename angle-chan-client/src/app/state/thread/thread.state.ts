@@ -7,6 +7,7 @@ import { tap } from 'rxjs/operators';
 import {ImmPost} from '../../models/post';
 import {isNull, isUndefined} from 'util';
 import {Observable} from 'rxjs';
+import {Injectable} from '@angular/core';
 
 
 function findPostIndex(posts: List<ImmPost>, n: number) {
@@ -43,6 +44,7 @@ export interface ThreadStateModel {
       alreadyInlinedPosts: Set([])
     }
 })
+@Injectable()
 export class ThreadState {
 
     constructor(private threadService: ThreadService) { }

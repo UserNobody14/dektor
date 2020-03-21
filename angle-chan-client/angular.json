@@ -26,7 +26,7 @@
             "styles": [
               "src/styles.css",
               "./node_modules/font-awesome/css/font-awesome.css",
-              "./node_modules/videogular2/fonts/videogular.css"
+              "./node_modules/ngx-videogular/fonts/videogular.css"
             ],
             "scripts": [],
             "es5BrowserSupport": true
