@@ -20,7 +20,7 @@ export class PostFormComponent implements OnInit {
 
   baseUrl = environment.apiUrl;
 
-  @ViewChild('fileInput', {static: false}) fileInput: ElementRef;
+  @ViewChild('fileInput') fileInput: ElementRef;
 
   uploader: FileUploader;
   isDropOver: boolean;
