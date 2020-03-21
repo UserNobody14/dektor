@@ -27,7 +27,7 @@ export class ScrubBarThumbnailPreviewComponent implements OnInit {
   positionString = '';
   thumbnailPositionLeft = '';
 
-  @ViewChild('bar', {static: false})
+  @ViewChild('bar')
   public el: ElementRef<HTMLElement>;
 
   constructor(private elem: ElementRef<HTMLElement>, private renderer2: Renderer2) {}
