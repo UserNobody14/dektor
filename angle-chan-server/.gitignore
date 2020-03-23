@@ -33,3 +33,4 @@ build/
 /src/main/resources/built/*
 mvnw
 mvnw.cmd
+/angle-chan-server/itemsStored/**
