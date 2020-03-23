@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { List } from 'immutable';
-import { ImmPost } from '../models/post';
+import {ImmPost, InputPost} from '../models/post';
 import {ImmThread, InputThread, Thread} from '../models/thread';
 import {ImmMediaInfo} from '../models/media-container';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {map, tap} from 'rxjs/operators';
+import {GenericPage} from '../models/generic-page';
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +34,14 @@ export class ThreadService {
       tap(item => console.log('thr', item.toJS(), item.posts.map(a => a.toJS()).toJS()))
     );
   }
+
+  getPostsPaged(thread: number, page: number): Observable<GenericPage<InputPost>> {
+    const params = new HttpParams().set('page', page.toString()).set('size', '10');
+    return this.http.get<GenericPage<InputPost>>('/api/thread/paged/' + thread, {params}).pipe(
+      tap(item => console.log('thr', item.content))
+    );
+  }
+
 
   getPosts() {
     return List([new ImmPost({name: 'vv',

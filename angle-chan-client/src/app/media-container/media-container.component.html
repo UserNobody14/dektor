@@ -1,15 +1,34 @@
-<div class="file">
+<!--<div class="file">-->
+<!--    <div class="fileText">-->
+<!--      File:-->
+<!--      <a [title]="displayedMedia?.title" target="_blank">{{ displayedMedia?.title }}</a>-->
+<!--      ({{displayedMedia?.info?.contentLength | contentLengthKb}}, {{displayedMedia?.info?.height}}x{{displayedMedia?.info?.width}})-->
+<!--    </div>-->
+<!--    <a class="fileThumb" [href]="baseUrl + 'media/' + displayedMedia?.info?.link">-->
+<!--      <img-->
+<!--        [src]="baseUrl + 'thumbnail/' + displayedMedia?.thumbnail?.link"-->
+<!--        [alt]="displayedMedia?.mediaSizeKb"-->
+<!--        [height]="displayedMedia?.thumbnail.height ? displayedMedia?.thumbnail?.height : 85"-->
+<!--        [width]="displayedMedia?.thumbnail.width ? displayedMedia?.thumbnail?.width : 120"-->
+<!--      />-->
+<!--    </a>-->
+<!--&lt;!&ndash;  purely for test purposes:&ndash;&gt;-->
+<!--  <div>TESTING:</div>-->
+<!--  <div>{{displayedMedia}}</div>-->
+<!--&lt;!&ndash;  testing only &ndash;&gt;-->
+<!--  </div>-->
+<div *ngFor="let display of mediaListing; let i = index" class="file">
     <div class="fileText">
       File:
-      <a [title]="media.title" target="_blank">{{ media.title }}</a>
-      ({{media.info.contentLength | contentLengthKb}}, {{media.info.height}}x{{media.info.width}})
+      <a [title]="display?.title" target="_blank">{{ display?.name }} {{display?.displayName}}</a>
+      ({{display?.info?.contentLength | contentLengthKb}}, {{display?.info?.height}}x{{display?.info?.width}})
     </div>
-    <a class="fileThumb" [href]="baseUrl + 'media/' + media.info.link">
+    <a class="fileThumb" [href]="baseUrl + 'media/' + display?.info?.link">
       <img
-        [src]="baseUrl + 'thumbnail/' + media.thumbnail.link"
-        [alt]="media.mediaSizeKb"
-        [height]="media.thumbnail.height > 0 ? media.thumbnail.height : 85"
-        [width]="media.thumbnail.width > 0 ? media.thumbnail.width : 120"
+        [src]="baseUrl + 'thumbnail/' + display?.thumbnail?.link"
+        [alt]="display?.mediaSizeKb"
+        [height]="display?.thumbnail.height ? display?.thumbnail?.height : 120"
+        [width]="display?.thumbnail.width ? display?.thumbnail?.width : 120"
       />
     </a>
-  </div>
+</div>

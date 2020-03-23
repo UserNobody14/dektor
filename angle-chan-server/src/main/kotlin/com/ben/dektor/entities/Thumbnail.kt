@@ -4,13 +4,14 @@ import lombok.Data
 import org.springframework.content.commons.annotations.ContentId
 import org.springframework.content.commons.annotations.ContentLength
 import org.springframework.content.commons.annotations.MimeType
+import java.util.*
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 
 @Entity
 
-class Thumbnail (
+data class Thumbnail (
     @Id @GeneratedValue
     var link: Long? = 0,
     var height: Long?,
@@ -18,11 +19,19 @@ class Thumbnail (
 
     // Spring Content managed attributes
     @ContentId
-    var contentId: String,
+    var contentId: UUID?,
 
     @ContentLength
     var contentLen: Long?,
 
     @MimeType
     var mimeType: String = "text/plain"
-)
+) {
+    constructor(mimeType: String) : this(
+            null,
+            null,
+            null,
+            null,
+            null,
+            mimeType)
+}

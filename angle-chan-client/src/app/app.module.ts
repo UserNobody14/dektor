@@ -39,7 +39,7 @@ import { DateToTimePipe } from './pipes/date-to-time.pipe';
 import { PostFormComponent } from './post-form/post-form.component';
 import {FileUploadModule} from 'ng2-file-upload';
 import { ContentLengthKbPipe } from './pipes/content-length-kb.pipe';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RecaptchaFormsModule, RecaptchaModule} from 'ng-recaptcha';
 @NgModule({
   declarations: [
@@ -66,10 +66,10 @@ import {RecaptchaFormsModule, RecaptchaModule} from 'ng-recaptcha';
     AppRoutingModule,
     FormsModule,
     NgxsModule.forRoot([
-      ThreadState,
-      CatalogState
-    ],
-    {developmentMode: !environment.production}
+        ThreadState,
+        CatalogState
+      ],
+      {developmentMode: !environment.production}
     ),
     HttpClientModule,
     VgCoreModule,
@@ -78,7 +78,8 @@ import {RecaptchaFormsModule, RecaptchaModule} from 'ng-recaptcha';
     VgBufferingModule,
     RecaptchaModule,
     RecaptchaFormsModule,
-    FileUploadModule
+    FileUploadModule,
+    ReactiveFormsModule
   ],
   providers: [ThreadService],
   bootstrap: [AppComponent],

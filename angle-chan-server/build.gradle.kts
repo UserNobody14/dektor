@@ -8,43 +8,49 @@ plugins {
     kotlin("jvm")
     kotlin("plugin.spring")
     kotlin("plugin.jpa")
-    war
     id("org.springframework.boot")
     id("io.spring.dependency-management")
     id("org.jetbrains.kotlin.plugin.allopen")
     id("org.jetbrains.kotlin.kapt")
 }
 
+val developmentOnly = configurations.create("developmentOnly")
+configurations.runtimeClasspath.get().extendsFrom(developmentOnly)
+//val developmentOnly by configurations.creating
+//configurations {
+//    runtimeClasspath {
+//        extendsFrom(developmentOnly)
+//    }
+//}
 
-val developmentOnly by configurations.creating
-configurations {
-    runtimeClasspath {
-        extendsFrom(developmentOnly)
-    }
-}
+val springBootVersion = "2.2.4.RELEASE"
+//1.0.0.M7 -use this instead, combined with 2.2.4?
+val springContentVersion = "1.0.0.M7"
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-web:2.1.6.RELEASE")
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa:2.1.6.RELEASE")
+    implementation("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion")
     implementation("net.coobird:thumbnailator:0.4.8")
-    implementation("org.springframework.boot:spring-boot-starter-security:2.1.6.RELEASE")
-    implementation("com.github.paulcwarren:spring-content-fs-boot-starter:0.12.0")
-    implementation("com.github.paulcwarren:spring-content-rest-boot-starter:0.12.0")
-//    implementation("org.springframework.boot:spring-boot-configuration-processor:2.1.6.RELEASE")
+    implementation("org.springframework.boot:spring-boot-starter-security:$springBootVersion")
+    implementation("com.github.paulcwarren:spring-content-fs-boot-starter:$springContentVersion")
+    implementation("com.github.paulcwarren:spring-content-rest-boot-starter:$springContentVersion")
+//    implementation("org.springframework.boot:spring-boot-configuration-processor:$springBootVersion")
 //    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     implementation("com.google.guava:guava:28.1-jre")
     runtimeOnly("com.h2database:h2:1.4.199")
 //    developmentOnly("org.springframework.boot:spring-boot-devtools")
-    developmentOnly("org.springframework.boot:spring-boot-devtools:2.1.6.RELEASE")
+    developmentOnly("org.springframework.boot:spring-boot-devtools:$springBootVersion")
     testImplementation("com.jayway.restassured:rest-assured:2.3.4")
     testImplementation("com.github.paulcwarren:ginkgo4j:1.0.10")
-    testImplementation("org.springframework.boot:spring-boot-starter-test:2.1.6.RELEASE")
+    testImplementation("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
     testImplementation("org.springframework.security:spring-security-test:5.1.5.RELEASE")
 //    compileOnly("org.projectlombok:lombok:1.18.8")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     kapt("org.springframework.boot:spring-boot-configuration-processor")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("com.maxmind.geoip2:geoip2:2.13.1")
+    implementation("org.jcodec:jcodec:0.2.3")
+    implementation("org.jcodec:jcodec-javase:0.2.3")
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
 

@@ -9,9 +9,10 @@ import {environment} from '../../environments/environment';
 export class PostService {
   private readonly baseUrl = environment.apiUrl + 'fileAccess/post';
   constructor(private http: HttpClient) { }
-  post(post: InputPost, captcha: string) {
-
-    const params = new HttpParams().set('captcha', captcha)
-    return this.http.post(this.baseUrl, post, {params});
+  post(post: InputPost, thread: number, captcha: string) {
+    const emptypost: InputPost[] = [];
+    const outPost: InputPost = {...post, thread: {number: thread, subject: '', posts: emptypost}};
+    const params = new HttpParams().set('captcha', captcha);
+    return this.http.post(this.baseUrl, outPost, {params});
   }
 }

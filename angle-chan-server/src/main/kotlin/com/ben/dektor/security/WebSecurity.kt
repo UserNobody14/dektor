@@ -4,6 +4,7 @@ import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.content.fs.config.EnableFilesystemStores
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.scheduling.annotation.EnableAsync
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
@@ -13,6 +14,7 @@ import org.springframework.web.client.RestTemplate
 //import org.h2.server.web.WebServlet;
 @Configuration
 @EnableWebSecurity
+@EnableAsync
 @EnableFilesystemStores(basePackages = ["com.ben.dektor.store"])
 open class WebSecurity : WebSecurityConfigurerAdapter() {
     @Throws(Exception::class)

@@ -55,8 +55,12 @@
       </ng-container>
     </div>
     <!-- todo: rearrange this to suit an arbitrary number of items -->
-    <ng-container *ngIf="post.media[0] != null && post.media[0] != undefined">
-      <app-media-container [media]="post.media[0]"></app-media-container>
+    <app-media-container [mediaListing]="post.media"></app-media-container>
+    <ng-container *ngIf="post.media.get(0) !== null && post.media.get(0) !== undefined">
+<!--      <app-media-container [displayedMedia]="post.media.get(0)"></app-media-container>-->
+    </ng-container>
+    <ng-container *ngIf="post.media[0] !== null && post.media[0] !== undefined">
+      <div>blah</div>
     </ng-container>
     <!-- <app-art-player *ngIf="isOp" ></app-art-player> -->
     <blockquote class="postMessage">{{ post.text }}</blockquote>

@@ -4,7 +4,7 @@ import lombok.Data
 import javax.persistence.*
 
 @Entity
-open class MediaContainer (
+data class MediaContainer (
     @Id
     @GeneratedValue
     var id: Long?,

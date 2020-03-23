@@ -6,7 +6,7 @@ import javax.persistence.Id
 
 
 @Entity
-class Board (
+data class Board (
     @Id
     var boardName: String
 //    var boardDescription: String //

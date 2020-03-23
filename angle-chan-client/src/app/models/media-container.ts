@@ -1,5 +1,5 @@
 import {Record} from 'immutable';
-type MediaTypes =  'webm' | 'image' | 'cbz' | 'text' | 'music';
+type MediaTypes =  'webm' | 'image' | 'cbz' | 'text' | 'music' | string;
 
 export interface MediaContainer {
   thumbnail: Thumbnail;

@@ -7,7 +7,6 @@ import java.util.*
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonPropertyOrder("success", "challenge_ts", "hostname", "error-codes")
-
 data class GoogleResponse(
         @JsonProperty("success")
         var success: Boolean = false,
@@ -34,22 +33,49 @@ var errorCodes: Array<ErrorCode>?
     }
 
     enum class ErrorCode {
-        MissingSecret, InvalidSecret, MissingResponse, InvalidResponse;
+        @JsonProperty("missing-input-secret")
+        MissingSecret,
+        @JsonProperty("invalid-input-secret")
+        InvalidSecret,
+        @JsonProperty("missing-input-response")
+        MissingResponse,
+        @JsonProperty("invalid-input-response")
+        InvalidResponse;
 
-        companion object {
-            var errorsMap: MutableMap<String, ErrorCode> = HashMap(4)
-
-            @JsonCreator
-            fun forValue(value: String): ErrorCode? {
-                return errorsMap[value.toLowerCase()]
-            }
-
-            init {
-                errorsMap["missing-input-secret"] = MissingSecret
-                errorsMap["invalid-input-secret"] = InvalidSecret
-                errorsMap["missing-input-response"] = MissingResponse
-                errorsMap["invalid-input-response"] = InvalidResponse
-            }
-        }
+//        companion object {
+//            var errorsMap: MutableMap<String, ErrorCode> = HashMap(4)
+//
+//            @JsonCreator
+//            fun forValue(value: String): ErrorCode? {
+//                return errorsMap[value.toLowerCase()]
+//            }
+//
+//            init {
+//                errorsMap["missing-input-secret"] = MissingSecret
+//                errorsMap["invalid-input-secret"] = InvalidSecret
+//                errorsMap["missing-input-response"] = MissingResponse
+//                errorsMap["invalid-input-response"] = InvalidResponse
+//            }
+//        }
     } // standard getters and setters
 }
+
+//enum class ErrorCode {
+//    MissingSecret, InvalidSecret, MissingResponse, InvalidResponse;
+//
+//    companion object {
+//        var errorsMap: MutableMap<String, ErrorCode> = HashMap(4)
+//
+//        @JsonCreator
+//        fun forValue(value: String): ErrorCode? {
+//            return errorsMap[value.toLowerCase()]
+//        }
+//
+//        init {
+//            errorsMap["missing-input-secret"] = MissingSecret
+//            errorsMap["invalid-input-secret"] = InvalidSecret
+//            errorsMap["missing-input-response"] = MissingResponse
+//            errorsMap["invalid-input-response"] = InvalidResponse
+//        }
+//    }
+//}

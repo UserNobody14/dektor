@@ -4,10 +4,11 @@ import {List, Set, Record} from 'immutable';
 import {GetNextPage, GetPostsForThread, InlineReply, RemoveInliningForReply, ShowReplyInPost, UnShowReplyInPost} from './thread.actions';
 import { ThreadService } from '../../services/thread.service';
 import { tap } from 'rxjs/operators';
-import {ImmPost} from '../../models/post';
+import {ImmPost, InputPost} from '../../models/post';
 import {isNull, isUndefined} from 'util';
 import {Observable} from 'rxjs';
 import {Injectable} from '@angular/core';
+import {GenericPage} from '../../models/generic-page';
 
 
 function findPostIndex(posts: List<ImmPost>, n: number) {
@@ -127,6 +128,7 @@ export class ThreadState {
   ) {
       const st = getState();
       const page = st.pageNumber;
+      const currentThreadPosts = st.thread;
       //if the threadnumber in the payload is different, reset;
       // edge cases: st.thread.number is null
       //pageNumber is null
@@ -138,8 +140,15 @@ export class ThreadState {
       const pageNumber = payload ?
       payload !== currentThread ? 0 : page + 1 : page + 1;
 
-      return this.threadService.getThreadsHttp(threadNumber).pipe(
-        tap(thread => {
+      return this.threadService.getPostsPaged(threadNumber, pageNumber).pipe(
+        tap((invalue: GenericPage<InputPost>) => {
+          const inList: List<ImmPost> = List(invalue.content).map(a => new ImmPost(a));
+          const thread: ImmThread = new ImmThread({
+            ...currentThreadPosts,
+            posts: currentThreadPosts.posts.concat(inList)
+          });
+          //TODO: save an error value in the threadstate?
+          //TODO: make it determine the max pages and do something?
           patchState({thread, pageNumber});
         })
       );

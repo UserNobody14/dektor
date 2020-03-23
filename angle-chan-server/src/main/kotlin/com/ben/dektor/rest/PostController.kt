@@ -43,7 +43,7 @@ private val thumbnailStore: ThumbnailStore
     fun setContent(
             @PathVariable("galleryNumber") galleryNumber: Int,
             @PathVariable("fileId") id: Long,
-            @RequestParam("file") file: MultipartFile): MediaContainer? {
+            @RequestParam("file") file: MultipartFile): MediaContainer {
 //        System.out.println("here I am");
 //        TODO: make it so only the creator of the post can add new images to it
 //        TODO: make it so once the creator is done, & the post is finalized
@@ -55,45 +55,35 @@ private val thumbnailStore: ThumbnailStore
 //        TODO: make illegitimate pics get deleted 2 prevent abuse?
         val mediaContainer = MediaContainer(
                 null,
-                MediaInfo(
-                        null,
-                        null,
-                        null,
-                        (file.originalFilename ?: file.name) + galleryNumber + id,
-                        null,
-                        file.contentType ?: throw IOException()
-                ),
-                Thumbnail(
-                        null,
-                        null,
-                        null,
-                        (file.originalFilename ?: file.name) + galleryNumber + id + "s",
-                        null,
-                        file.contentType ?: throw IOException()
-                ),
+                MediaInfo(file.contentType ?: throw IOException()),
+                Thumbnail(file.contentType ?: throw IOException()),
                 file.size.toString(),
-                null,
+                "$galleryNumber$id${file.originalFilename}",
                 "image"
         )
-        val info = mediaContainer.info
-        val thumbnail = mediaContainer.thumbnail
-        val returned = mediaContainerRepository.save(mediaContainer)
-        mediaStore.setContent(info, file.inputStream)
+//        val returned = mediaContainerRepository.save(mediaContainer)
+//TODO: determine and set height & width?
+//        TODO: determine and set thumbnail if item is a webm? or cbz? or other?
+//        TODO: add functionality related to image hashing!
+        mediaStore.setContent(mediaContainer.info, file.inputStream)
         val out = ByteArrayOutputStream()
         Thumbnails.of(file.inputStream)
                 .size(120, 85)
                 .toOutputStream(out)
-        thumbnailStore.setContent(thumbnail, ByteArrayInputStream(out.toByteArray()))
+        thumbnailStore.setContent(mediaContainer.thumbnail, ByteArrayInputStream(out.toByteArray()))
 
         // save updated content-related info
+        return mediaContainerRepository.save(mediaContainer)
 
-        return returned
     }
 
     @PostMapping(path = ["/post"])
     fun makePost(@RequestBody post: Post, @RequestParam(value = "captcha") captcha: String): Post {
         captchaService.processResponse(captcha)
-        return postRepository.save(post)
+//        TODO: reset a post's id to zero so no post is overridden?
+//TODO: switch to a microservice style architecture? w/captcha verification done ahead of this?
+//TODO: read through the post text and add it to the replies of other posts?
+        return postRepository.save(Post(post))
     } //    @GetMapping(path = "experimentFile/:numberV")
     //    public Post expFile(@PathVariable("numberV") Long number) {
     //        System.out.println("here I am");

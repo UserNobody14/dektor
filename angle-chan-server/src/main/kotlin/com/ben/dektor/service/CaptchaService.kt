@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service
 import org.springframework.util.StringUtils
 import org.springframework.web.client.RestClientException
 import org.springframework.web.client.RestOperations
+import org.springframework.web.client.RestTemplate
 import java.net.URI
 import java.util.regex.Pattern
 import javax.servlet.http.HttpServletRequest
@@ -22,11 +23,11 @@ class CaptchaService (
         @Autowired
 val reCaptchaAttemptService: ReCaptchaAttemptService,
 @Autowired
-val restTemplate: RestOperations
+val restTemplate: RestTemplate
 ): ICaptchaService {
-    @Value("google.recaptcha.key.site")
+    @Value("\${google.recaptcha.key.site}")
     lateinit var site: String
-    @Value("google.recaptcha.key.secret")
+    @Value("\${google.recaptcha.key.secret}")
     lateinit var secret: String
     override val reCaptchaSite: String?
         get() = site
@@ -36,15 +37,17 @@ val restTemplate: RestOperations
     @Throws(ReCaptchaInvalidException::class)
     override fun processResponse(response: String?)  {
         LOGGER.debug("Attempting to validate response {}", response)
-        if (reCaptchaAttemptService!!.isBlocked(clientIP)) {
+        if (reCaptchaAttemptService.isBlocked(clientIP)) {
             throw ReCaptchaInvalidException("Client exceeded maximum number of failed attempts")
         }
         if (!responseSanityCheck(response)) {
             throw ReCaptchaInvalidException("Response contains invalid characters")
         }
+        LOGGER.info("secret: $reCaptchaSecret\n response: $response")
+
         val verifyUri = URI.create(String.format("https://www.google.com/recaptcha/api/siteverify?secret=%s&response=%s&remoteip=%s", reCaptchaSecret, response, clientIP))
         try {
-            val googleResponse = restTemplate!!.getForObject(verifyUri, GoogleResponse::class.java) ?: throw ReCaptchaUnavailableException("Registration unavailable at this time.  Please try again later.")
+            val googleResponse = restTemplate.getForObject(verifyUri, GoogleResponse::class.java) ?: throw ReCaptchaUnavailableException("Registration unavailable at this time.  Please try again later.")
             LOGGER.debug("Google's response: {} ", googleResponse.toString())
             if (!googleResponse.success) {
                 if (googleResponse.hasClientError()) {
@@ -72,7 +75,7 @@ val restTemplate: RestOperations
 
     private val clientIP: String
         private get() {
-            val xfHeader = request!!.getHeader("X-Forwarded-For") ?: return request.remoteAddr
+            val xfHeader = request.getHeader("X-Forwarded-For") ?: return request.remoteAddr
             return xfHeader.split(",").toTypedArray()[0]
         }
 

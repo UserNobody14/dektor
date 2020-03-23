@@ -1,10 +1,7 @@
 package com.ben.dektor
 
 import com.ben.dektor.entities.*
-import com.ben.dektor.repositories.BoardRepository
-import com.ben.dektor.repositories.MediaInfoRepository
-import com.ben.dektor.repositories.PostRepository
-import com.ben.dektor.repositories.ThreadRepository
+import com.ben.dektor.repositories.*
 import com.ben.dektor.security.CaptchaSettings
 import com.ben.dektor.store.MediaStore
 import com.ben.dektor.store.ThumbnailStore
@@ -18,7 +15,14 @@ import java.nio.file.Path
 import java.nio.file.Paths
 
 @EnableConfigurationProperties(CaptchaSettings::class)
-@SpringBootApplication //@ComponentScan("com.ben.dektor")
+@SpringBootApplication(scanBasePackages= arrayOf(
+        "com.ben.dektor.rest",
+        "com.ben.dektor.service",
+    "com.ben.dektor.repositories",
+    "com.ben.dektor.store",
+    "com.ben.dektor.entities",
+    "com.ben.dektor.security"))
+//@ComponentScan("com.ben.dektor")
 //@ComponentScan(basePackages = {"com.ben.dektor.rest", "com.ben.dektor.repositories", "com.ben.dektor.store", "com.ben.dektor.entities", "com.ben.dektor.security"})
 class DektorApplication {
     @Bean
@@ -27,7 +31,7 @@ class DektorApplication {
             threadRepository: ThreadRepository,
             thumbnailStore: ThumbnailStore,
             mediaStore: MediaStore,
-            mediaInfoRepository: MediaInfoRepository,
+            mediaInfoRepository: MediaContainerRepository,
             boardRepository: BoardRepository
     ): CommandLineRunner {
         return CommandLineRunner { args: Array<String?>? ->
@@ -36,14 +40,14 @@ class DektorApplication {
                     2,
                     null,
                     null,
-                    "contentHear",
+                    null,
                     null,
                     "image/jpeg")
             val t = Thumbnail(
                     3,
                     null,
                     null,
-                    "blah",
+                    null,
                     null,
                     "image/jpeg")
             val mc = MediaContainer(
@@ -51,7 +55,7 @@ class DektorApplication {
                     m,
                     t,
                     null,
-                    null,
+                    "New Title Whatever",
                     null)
             var jbauer = Post(
                     1,
@@ -85,9 +89,13 @@ class DektorApplication {
             // save the user
 //            mediaInfoRepository.save(m);
 //            postRepository.save(jbauer)
+            val nmc = mediaInfoRepository.saveAndFlush(mc)
             boardRepository.save(Board("b"))
-            threadRepository.save(thread)
-                        postRepository.save(jbauer)
+            val nthread = threadRepository.saveAndFlush(thread)
+            println("this is the threadnumber: ${nthread.number}")
+            jbauer.thread = nthread
+            jbauer.media = mutableListOf(nmc)
+            postRepository.save(jbauer)
         }
     }
 

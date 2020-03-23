@@ -6,7 +6,7 @@ import { Select, Store } from '@ngxs/store';
 import { ThreadState } from '../state/thread/thread.state';
 import {Observable, throwError} from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
-import { GetPostsForThread } from '../state/thread/thread.actions';
+import {GetNextPage, GetPostsForThread} from '../state/thread/thread.actions';
 
 
 @Component({
@@ -33,7 +33,7 @@ export class ThreadComponent implements OnInit {
       this.board = data.get('board');
       console.log('fetching posts for threadnum: ', this.thread);
       if (this.thread) {
-        this.store.dispatch(new GetPostsForThread(Number(this.thread)));
+        this.store.dispatch(new GetNextPage(Number(this.thread)));
       }
     });
   }

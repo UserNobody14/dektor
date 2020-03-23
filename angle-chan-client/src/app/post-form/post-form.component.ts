@@ -7,6 +7,7 @@ import {List} from 'immutable';
 import {ImmPost, InputPost} from '../models/post';
 import {UploadObserver} from '../models/upload-observer';
 import {mergeMap} from 'rxjs/operators';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-post-form',
@@ -26,7 +27,8 @@ export class PostFormComponent implements OnInit {
   isDropOver: boolean;
   post: InputPost = new ImmPost({}).toJS();
 
-  captcha: string;
+  formModel: FormGroup;
+  // captcha: string;
   @Input() thread: string;
   @Input() board: string;
 
@@ -35,13 +37,14 @@ export class PostFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.formModel = new FormGroup({captcha: new FormControl(null, Validators.required)});
     const headers = []; // [{name: 'Accept', value: 'application/json'}];
     this.uploader = new FileUploader(
       {url: this.baseUrl + '/fileAccess/files/1/0', headers}
       );
     this.uploader.onBeforeUploadItem = (fileItem) => {
       console.log(fileItem.formData);
-    }
+    };
     // const q = this.uploader.queue;
     // q.forEach(fil => fil.file.name)
     // this.uploader.
@@ -70,7 +73,7 @@ export class PostFormComponent implements OnInit {
     this.progressItem.mediaContainer.pipe(
       mergeMap(media => {
         this.post.media = media;
-        return this.postService.post(this.post, this.captcha);
+        return this.postService.post(this.post, Number(this.thread), this.formModel.get('captcha').value);
       })
     ).subscribe(post => {
         console.log(post);

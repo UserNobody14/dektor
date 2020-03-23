@@ -34,7 +34,7 @@ export interface Post extends GenericPost<List<ImmMediaInfo>> {
 }
 
 export interface InputPost extends GenericPost<MediaContainer[]> {
-  thread?: GenericThread<InputPost>;
+  thread?: GenericThread<InputPost[]> | number;
 }
 
 const postRecord = Record<Post>({
