@@ -96,3 +96,4 @@ angle-chan-client/src/assets/**
 angle-chan-server/src/main/resources/**
 
 #/angle-chan-server/src/main/resources/built/**
+/angle-chan-server/itemsStored/
