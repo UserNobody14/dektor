@@ -65,12 +65,12 @@ import {RecaptchaFormsModule, RecaptchaModule} from 'ng-recaptcha';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    NgxsModule.forRoot([
-        ThreadState,
-        CatalogState
-      ],
-      {developmentMode: !environment.production}
-    ),
+    // NgxsModule.forRoot([
+    //     ThreadState,
+    //     CatalogState
+    //   ],
+    //   {developmentMode: !environment.production}
+    // ),
     HttpClientModule,
     VgCoreModule,
     VgControlsModule,
@@ -82,7 +82,6 @@ import {RecaptchaFormsModule, RecaptchaModule} from 'ng-recaptcha';
     ReactiveFormsModule
   ],
   providers: [ThreadService],
-  bootstrap: [AppComponent],
-  entryComponents: []
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

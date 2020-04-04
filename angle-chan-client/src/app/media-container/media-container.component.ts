@@ -23,5 +23,10 @@ export class MediaContainerComponent implements OnInit {
 
   ngOnInit() {
   }
+  contentLengthKbFn(value: number) {
+    return value < 1000 ? `${value} bytes` :
+      value < 1000000 ?  `${Math.floor(value / 1000)} kb` :
+        `${value / 1000000} Mb`;
+  }
 
 }

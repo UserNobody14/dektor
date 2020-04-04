@@ -21,7 +21,7 @@
     <div class="fileText">
       File:
       <a [title]="display?.title" target="_blank">{{ display?.name }} {{display?.displayName}}</a>
-      ({{display?.info?.contentLength | contentLengthKb}}, {{display?.info?.height}}x{{display?.info?.width}})
+      ({{contentLengthKbFn(display?.info?.contentLength)}}, {{display?.info?.height}}x{{display?.info?.width}})
     </div>
     <a class="fileThumb" [href]="baseUrl + 'media/' + display?.info?.link">
       <img
