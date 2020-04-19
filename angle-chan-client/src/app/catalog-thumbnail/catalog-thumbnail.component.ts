@@ -20,5 +20,8 @@ export class CatalogThumbnailComponent implements OnInit {
 
   ngOnInit() {
   }
-
+  toDateTime(value) {
+    // op.media?.get(0)?.thumbnail?.
+    return new Date(value).getTime();
+  }
 }

@@ -36,11 +36,13 @@ import { CatalogThumbnailComponent } from './catalog-thumbnail/catalog-thumbnail
 import {CatalogState} from './state/catalog/catalog.state';
 import {HttpClientModule} from '@angular/common/http';
 import { DateToTimePipe } from './pipes/date-to-time.pipe';
-import { PostFormComponent } from './post-form/post-form.component';
+import { PostFormComponent } from './upload/post-form/post-form.component';
 import {FileUploadModule} from 'ng2-file-upload';
 import { ContentLengthKbPipe } from './pipes/content-length-kb.pipe';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RecaptchaFormsModule, RecaptchaModule} from 'ng-recaptcha';
+import {UploadModule} from './upload/upload.module';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 @NgModule({
   declarations: [
     AppComponent,
@@ -55,7 +57,6 @@ import {RecaptchaFormsModule, RecaptchaModule} from 'ng-recaptcha';
     ContainsNumberPipe,
     CatalogThumbnailComponent,
     DateToTimePipe,
-    PostFormComponent,
     ContentLengthKbPipe,
     // ArtPlayerComponent,
     // ArtPlayer2Component
@@ -65,12 +66,13 @@ import {RecaptchaFormsModule, RecaptchaModule} from 'ng-recaptcha';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    // NgxsModule.forRoot([
-    //     ThreadState,
-    //     CatalogState
-    //   ],
-    //   {developmentMode: !environment.production}
-    // ),
+    FontAwesomeModule,
+    NgxsModule.forRoot([
+        ThreadState,
+        CatalogState
+      ],
+      {developmentMode: !environment.production}
+    ),
     HttpClientModule,
     VgCoreModule,
     VgControlsModule,
@@ -79,7 +81,9 @@ import {RecaptchaFormsModule, RecaptchaModule} from 'ng-recaptcha';
     RecaptchaModule,
     RecaptchaFormsModule,
     FileUploadModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    UploadModule,
+    FontAwesomeModule
   ],
   providers: [ThreadService],
   bootstrap: [AppComponent]

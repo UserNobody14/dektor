@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Inject, Injectable} from '@angular/core';
 import {forkJoin, merge, Observable, partition, Subject} from 'rxjs';
 import {HttpClient, HttpEventType, HttpHeaders, HttpRequest, HttpResponse} from '@angular/common/http';
 import {List} from 'immutable';
@@ -10,11 +10,12 @@ import {filter, map} from 'rxjs/operators';
 // const url = '/api';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
+  deps: [HttpClient]
 })
 export class UploadService {
   private readonly url = environment.apiUrl + '/fileAccess/files';
-  constructor(private http: HttpClient) {}
+  constructor(@Inject(HttpClient) private http: HttpClient) {}
 
   public upload(files: List<File>, postNum: number):
     { [key: string]: { progress: Observable<number> } } {

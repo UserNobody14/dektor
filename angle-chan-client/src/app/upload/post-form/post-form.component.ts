@@ -1,22 +1,26 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Inject, Input, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {FileUploader} from 'ng2-file-upload';
-import {PostService} from '../services/post.service';
-import {environment} from '../../environments/environment';
-import {UploadService} from '../services/upload.service';
+import {PostService} from '../../services/post.service';
+import {environment} from '../../../environments/environment';
+import {UploadService} from '../../services/upload.service';
 import {List} from 'immutable';
-import {ImmPost, InputPost} from '../models/post';
-import {UploadObserver} from '../models/upload-observer';
+import {ImmPost, InputPost} from '../../models/post';
+import {UploadObserver} from '../../models/upload-observer';
 import {mergeMap} from 'rxjs/operators';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {HttpClient, HttpHandler} from '@angular/common/http';
 
 @Component({
+  moduleId: 'UploadModule',
   selector: 'app-post-form',
   templateUrl: './post-form.component.html',
-  styleUrls: ['./post-form.component.css']
+  styleUrls: ['./post-form.component.css'],
+  encapsulation: ViewEncapsulation.None,
+  providers: [PostService, UploadService, {provide: HttpClient, deps: [HttpHandler]}]
 })
 export class PostFormComponent implements OnInit {
 
-  constructor(private postService: PostService, private uploadService: UploadService) { }
+  constructor(@Inject(UploadService) private postService: PostService, @Inject(UploadService) private uploadService: UploadService) { }
   progressItem: UploadObserver;
 
   baseUrl = environment.apiUrl;

@@ -45,3 +45,8 @@ export class ImmMediaInfo extends mediaRecord implements MediaContainer {
   }
 
 }
+
+// class MyTestV extends Record<this>({bob: '', joe: ''}) {
+//   bob: string;
+//   joe: string;
+// }

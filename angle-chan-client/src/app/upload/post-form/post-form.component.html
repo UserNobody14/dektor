@@ -1,0 +1,107 @@
+
+
+  <div
+    class="qr dialog has-spoiler show-new-thread-option reply-to-thread has-captcha captcha-v2 captcha-open focus"
+    style="top: 50px; right: 0px;"
+  >
+    <div class="move">
+      <label>
+        <input id="autohide" title="Auto-hide" type="checkbox"/>
+        Quick Reply
+      </label>
+      <a class="close" href="javascript:" title="Close">×</a>
+      <select data-name="thread" title="Create a new thread / Reply">
+        <option value="new">New thread</option>
+        <option value="70042220">Thread 70042220</option>
+      </select>
+    </div>
+    <form>
+      <div class="persona">
+        <button id="sjis-toggle" title="Toggle Mona font" type="button">∀</button>
+        <button id="tex-preview-button" title="Preview TeX" type="button">
+          T
+          <sub>E</sub>
+          X
+        </button>
+        <input
+          [(ngModel)]="post.name"
+          [ngModelOptions]="{standalone: true}"
+          class="field"
+          data-name="name"
+          list="list-name"
+          name="name"
+          placeholder="Name"
+          size="1"
+        />
+        <input
+          class="field"
+          data-name="sub"
+          disabled
+          list="list-sub"
+          name="sub"
+          name="email"
+          placeholder="Subject"
+          size="1"
+        />
+      </div>
+      <div class="textarea">
+      <textarea
+        [(ngModel)]="post.text"
+        [ngModelOptions]="{standalone: true}"
+        class="field"
+        data-name="com"
+        placeholder="Comment">
+      </textarea>
+        <span hidden="" id="char-count">11</span>
+        <div id="tex-preview"></div>
+      </div>
+<!--     -->
+<!--      <app-private-recaptcha></app-private-recaptcha>-->
+      <!--    <div class="captcha-root">-->
+      <!--      <div class="captcha-container" data-widget-i-d="0">-->
+      <!--        <div style="width: 304px; height: 78px;">-->
+      <!--          <div>-->
+      <!--            <iframe-->
+      <!--              frameborder="0"-->
+      <!--              height="78"-->
+      <!--              name="a-hf9ei9sc6uln"-->
+      <!--              role="presentation"-->
+      <!--              sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox allow-storage-access-by-user-activation"-->
+      <!--              scrolling="no"-->
+      <!--              src="https://www.google.com/recaptcha/api2/anchor?ar=1&amp;k=6Ldp2bsSAAAAAAJ5uyx_lx34lJeEpTLVkP5k04qc&amp;co=aHR0cHM6Ly9ib2FyZHMuNGNoYW5uZWwub3JnOjQ0Mw..&amp;hl=en&amp;v=mhgGrlTs_PbFQOW4ejlxlxZn&amp;theme=light&amp;size=normal&amp;cb=6pgy8xwjm2i2"-->
+      <!--              width="304"-->
+      <!--            ></iframe>-->
+      <!--          </div>-->
+      <!--          <textarea-->
+      <!--            class="g-recaptcha-response"-->
+      <!--            id="g-recaptcha-response"-->
+      <!--            name="g-recaptcha-response"-->
+      <!--            style="width: 250px; height: 40px; border: 1px solid rgb(193, 193, 193); margin: 10px 25px; padding: 0px; resize: none; display: none;">-->
+      <!--          </textarea>-->
+      <!--        </div>-->
+      <!--      </div>-->
+      <!--      <div class="captcha-counter">-->
+      <!--        <a href="javascript:">Captchas: 0</a>-->
+      <!--      </div>-->
+      <!--    </div>-->
+
+<!--<app-file-submission-line (submitF)="uploadFiles()" [hasFile]="true" [validRecaptcha]="true"></app-file-submission-line>-->
+
+    </form>
+    <datalist id="list-name"></datalist>
+    <datalist id="list-email"></datalist>
+    <datalist id="list-sub"></datalist>
+<!--    Beginning of the file drop -->
+
+
+<!--    Beginning of added table: -->
+
+<!--    End of added table -->
+  </div>
+<!--Upload queue table? -->
+
+
+
+
+
+<!--<router-outlet></router-outlet>-->

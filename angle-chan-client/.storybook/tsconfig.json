@@ -16,5 +16,8 @@
   ],
   "files": [
     "./typings.d.ts"
-  ]
+  ],
+  "angularCompilerOptions": {
+    "enableIvy": false
+  }
 }
