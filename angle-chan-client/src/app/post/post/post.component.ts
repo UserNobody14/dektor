@@ -1,9 +1,9 @@
-import { Post } from './../models/post';
+import { Post } from '../../models/post';
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
 import { Store } from '@ngxs/store';
-import {InlineReply, RemoveInliningForReply, ShowReplyInPost, UnShowReplyInPost} from '../state/thread/thread.actions';
-import { ImmPost } from '../models/post';
-import { ThreadState } from '../state/thread/thread.state';
+import {InlineReply, RemoveInliningForReply, ShowReplyInPost, UnShowReplyInPost} from '../../state/thread/thread.actions';
+import { ImmPost } from '../../models/post';
+import { ThreadState } from '../../state/thread/thread.state';
 import { map, tap } from 'rxjs/operators';
 import {List, Set} from 'immutable';
 import {Observable} from 'rxjs';
@@ -27,6 +27,8 @@ export class PostComponent implements OnInit {
   @Input() inlining: Set<number>;
   @Input() post: ImmPost = new ImmPost({});
   inlinedPosts$: Observable<List<ImmPost>>;
+
+
 
   baseUrl = 'api/';
   // baseUrl = 'http://localhost:8080';

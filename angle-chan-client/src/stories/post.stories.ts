@@ -1,25 +1,25 @@
-import {PostComponent} from '../app/post/post.component';
+import {PostComponent} from '../app/post/post/post.component';
 import {ImmPost} from '../app/models/post';
 import {List, Set} from 'immutable';
-import {MediaContainerComponent} from '../app/media-container/media-container.component';
+import {MediaContainerComponent} from '../app/media/media-container/media-container.component';
 import {ImmMediaInfo} from '../app/models/media-container';
-import {PostFormComponent} from '../app/upload/post-form/post-form.component';
-import {CatalogThumbnailComponent} from '../app/catalog-thumbnail/catalog-thumbnail.component';
+import {PostFormComponent} from '../app/post/upload/post-form/post-form.component';
+import {CatalogThumbnailComponent} from '../app/catalog/catalog-thumbnail/catalog-thumbnail.component';
 import {FormGroupDirective} from '@angular/forms';
-import {FileSubmissionLineComponent} from '../app/upload/file-submission-line/file-submission-line.component';
+import {FileSubmissionLineComponent} from '../app/post/upload/file-submission-line/file-submission-line.component';
 import {moduleMetadata, storiesOf} from '@storybook/angular';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {RouterModule} from '@angular/router';
 import {AppRoutingModule} from '../app/app-routing.module';
 import {AppModule} from '../app/app.module';
-import {CatalogComponent} from '../app/catalog/catalog.component';
-import {ThreadComponent} from '../app/thread/thread.component';
+import {CatalogComponent} from '../app/catalog/catalog/catalog.component';
+import {ThreadComponent} from '../app/thread/thread/thread.component';
 import {APP_BASE_HREF} from '@angular/common';
 import {NgxsModule} from '@ngxs/store';
 import {ThreadState} from '../app/state/thread/thread.state';
 import {CatalogState} from '../app/state/catalog/catalog.state';
 import {environment} from '../environments/environment';
-import {UploadModule} from '../app/upload/upload.module';
+import {UploadModule} from '../app/post/upload/upload.module';
 
 export default {
   title: 'PostForm',

@@ -21,3 +21,10 @@ export class ImmThread extends threadRecord implements Thread {
     super(thread);
   }
 }
+export interface ThreadNotFound {
+  threadNumber: number;
+  dateNotFound: Date;
+  isCurrentThread: boolean;
+  message: string;
+  otherThreadError: boolean;
+}

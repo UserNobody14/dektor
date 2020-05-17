@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
-import {ImmPost} from '../models/post';
+import {ImmPost} from '../../models/post';
 import {List} from 'immutable';
 
 @Component({

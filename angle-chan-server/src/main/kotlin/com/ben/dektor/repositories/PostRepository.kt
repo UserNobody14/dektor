@@ -9,4 +9,7 @@ import org.springframework.data.jpa.repository.Query
 interface PostRepository : JpaRepository<Post?, Long?> {
     @Query("SELECT p from Post p where p.thread.number = :thread order by p.utc")
     fun fetchPageForThread(thread: Long, pageable: Pageable): Page<Post>
+    @Query("SELECT p from Post p where p.thread.board.boardName = :board " +
+            "and p.thread.number = :thread order by p.utc")
+    fun fetchPageForThreadAndBoard(thread: Long, board: String, pageable: Pageable): Page<Post>
 }

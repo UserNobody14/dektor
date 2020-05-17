@@ -2,6 +2,7 @@ package com.ben.dektor.rest
 
 import com.ben.dektor.entities.CatalogThread
 import com.ben.dektor.entities.Post
+import com.ben.dektor.error.ThreadNotFoundException
 import com.ben.dektor.repositories.PostRepository
 import com.ben.dektor.repositories.ThreadRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -27,9 +28,18 @@ class ThreadController(
     }
 
     @GetMapping(path = ["paged/{number}"])
-    fun pagedThread(@PathVariable number: Long, page: Pageable): Page<Post> {
+    fun pagedThread(
+            @PathVariable number: Long,
+            @RequestParam board: String,
+            page: Pageable
+    ): Page<Post> {
 //        System.out.println("here I am");
-        return postRepository.fetchPageForThread(number, page)
+//        if thread does not exist throw a does not exist error?
+        if (threadRepository.doesThreadExist(number, board)) {
+            return postRepository.fetchPageForThreadAndBoard(number, board, page)
+        } else {
+            throw ThreadNotFoundException("The thread $number was not found in board $board!");
+        }
     }
 
     @PostMapping("/sendOTP")

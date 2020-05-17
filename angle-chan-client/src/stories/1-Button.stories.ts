@@ -2,10 +2,10 @@ import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 
 import { Button } from '@storybook/angular/demo';
-import {PostComponent} from '../app/post/post.component';
+import {PostComponent} from '../app/post/post/post.component';
 import {ImmPost} from '../app/models/post';
 import {List, Set} from 'immutable';
-import {MediaContainerComponent} from '../app/media-container/media-container.component';
+import {MediaContainerComponent} from '../app/media/media-container/media-container.component';
 import {ImmMediaInfo} from '../app/models/media-container';
 
 export default {

@@ -1040,3 +1040,6 @@ table.flashListing .subject {
  .redtxt {
   color:red
  } */
+.captcha-image, .field {
+  font: 13px sans-serif;
+}

@@ -1,21 +1,22 @@
 import { State, Selector, Action, StateContext } from '@ngxs/store';
-import { ImmThread } from '../../models/thread';
+import {ImmThread, ThreadNotFound} from '../../models/thread';
 import {List, Set, Record} from 'immutable';
 import {GetNextPage, GetPostsForThread, InlineReply, RemoveInliningForReply, ShowReplyInPost, UnShowReplyInPost} from './thread.actions';
 import { ThreadService } from '../../services/thread.service';
-import { tap } from 'rxjs/operators';
+import {catchError, tap} from 'rxjs/operators';
 import {ImmPost, InputPost} from '../../models/post';
 import {isNull, isUndefined} from 'util';
-import {Observable} from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {GenericPage} from '../../models/generic-page';
+import {HttpErrorResponse} from '@angular/common/http';
 
 
 function findPostIndex(posts: List<ImmPost>, n: number) {
   return posts.findIndex(a => a.get('number') === n);
 }
 function mustNotBeNull(item: number) {
-  if(item === null || item === undefined) {
+  if (item === null || item === undefined) {
     throw Error;
   }
 }
@@ -31,6 +32,7 @@ function mustNotBeNull(item: number) {
 // }
 
 export interface ThreadStateModel {
+  notFound: ThreadNotFound;
   thread: ImmThread;
   pageNumber: number;
   alreadyInlinedPosts: Set<number>;
@@ -42,7 +44,14 @@ export interface ThreadStateModel {
     defaults: {
       thread: new ImmThread({}),
       pageNumber: 0,
-      alreadyInlinedPosts: Set([])
+      alreadyInlinedPosts: Set([]),
+      notFound: {
+        otherThreadError: false,
+        message: '',
+        threadNumber: 0,
+        isCurrentThread: false,
+        dateNotFound: new Date()
+      }
     }
 })
 @Injectable()
@@ -68,6 +77,10 @@ export class ThreadState {
         // console.log('foundin a: ',  a);
         return state.thread.get('posts').find(b => b.get('number') === a);
       };
+    }
+    @Selector()
+    public static exceptionHandler(state: ThreadStateModel) {
+      return state.notFound;
     }
     @Selector()
     public static findInline(state: ThreadStateModel): (a: Set<number>) => List<ImmPost> {
@@ -124,7 +137,7 @@ export class ThreadState {
   @Action(GetNextPage)
   getNextPage(
     {patchState, getState}: StateContext<ThreadStateModel>,
-    { payload }: GetNextPage
+    { payload, board }: GetNextPage
   ) {
       const st = getState();
       const page = st.pageNumber;
@@ -139,8 +152,31 @@ export class ThreadState {
       mustNotBeNull(threadNumber);
       const pageNumber = payload ?
       payload !== currentThread ? 0 : page + 1 : page + 1;
-
-      return this.threadService.getPostsPaged(threadNumber, pageNumber).pipe(
+      const notFound = (isCurrentThread: boolean, message?: string, other?: boolean): ThreadNotFound => ({
+        otherThreadError: other,
+        message,
+        threadNumber,
+        isCurrentThread,
+        dateNotFound: new Date()
+      });
+      return this.threadService.getPostsPaged(threadNumber,  pageNumber, board).pipe(
+        // catches the errors and resolves them.
+        catchError((err: HttpErrorResponse) => {
+          const errHeader = err.headers.get('thread-not-found-status');
+          if (errHeader !== 'true') {
+            console.log('error really was: ', err.message);
+            patchState({
+              notFound: notFound(true, errHeader, true)
+            });
+            return throwError(err);
+          } else {
+            patchState({
+              notFound: notFound(true, errHeader, false)
+            });
+            console.log('Handling error locally and rethrowing it...', err);
+            return throwError(err);
+          }
+        }),
         tap((invalue: GenericPage<InputPost>) => {
           const inList: List<ImmPost> = List(invalue.content).map(a => new ImmPost(a));
           const thread: ImmThread = new ImmThread({
@@ -149,7 +185,11 @@ export class ThreadState {
           });
           //TODO: save an error value in the threadstate?
           //TODO: make it determine the max pages and do something?
-          patchState({thread, pageNumber});
+          patchState({
+            notFound: notFound(false),
+            thread,
+            pageNumber,
+          });
         })
       );
   }

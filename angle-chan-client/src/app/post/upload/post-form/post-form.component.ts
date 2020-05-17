@@ -1,14 +1,15 @@
 import {Component, ElementRef, Inject, Input, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {FileUploader} from 'ng2-file-upload';
-import {PostService} from '../../services/post.service';
-import {environment} from '../../../environments/environment';
-import {UploadService} from '../../services/upload.service';
+import {PostService} from '../../../services/post.service';
+import {environment} from '../../../../environments/environment';
+import {UploadService} from '../../../services/upload.service';
 import {List} from 'immutable';
-import {ImmPost, InputPost} from '../../models/post';
-import {UploadObserver} from '../../models/upload-observer';
+import {ImmPost, InputPost} from '../../../models/post';
+import {UploadObserver} from '../../../models/upload-observer';
 import {mergeMap} from 'rxjs/operators';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {HttpClient, HttpHandler} from '@angular/common/http';
+import {MediaContainer} from '../../../models/media-container';
 
 @Component({
   moduleId: 'UploadModule',
@@ -20,28 +21,33 @@ import {HttpClient, HttpHandler} from '@angular/common/http';
 })
 export class PostFormComponent implements OnInit {
 
-  constructor(@Inject(UploadService) private postService: PostService, @Inject(UploadService) private uploadService: UploadService) { }
+  constructor(private postService: PostService, @Inject(UploadService) private uploadService: UploadService) { }
   progressItem: UploadObserver;
 
   baseUrl = environment.apiUrl;
 
-  @ViewChild('fileInput') fileInput: ElementRef;
 
   uploader: FileUploader;
   isDropOver: boolean;
   post: InputPost = new ImmPost({}).toJS();
 
-  formModel: FormGroup;
+  // formModel: FormGroup;
   // captcha: string;
   @Input() thread: string;
   @Input() board: string;
 
+  captchaString: string = null;
+  isCaptchaSolved: boolean = false;
+
   makePost() {
 
   }
+  remapUploader(upl: FileUploader): File[] {
+    return upl.queue.map(fil => fil._file);
+  }
 
   ngOnInit(): void {
-    this.formModel = new FormGroup({captcha: new FormControl(null, Validators.required)});
+    // this.formModel = new FormGroup({captcha: new FormControl(null, Validators.required)});
     const headers = []; // [{name: 'Accept', value: 'application/json'}];
     this.uploader = new FileUploader(
       {url: this.baseUrl + '/fileAccess/files/1/0', headers}
@@ -63,9 +69,7 @@ export class PostFormComponent implements OnInit {
 
   }
 
-  fileClicked() {
-    this.fileInput.nativeElement.click();
-  }
+
   moreFilesSelected($event) {
     console.log('b', $event);
   }
@@ -73,16 +77,26 @@ export class PostFormComponent implements OnInit {
 
   uploadFiles() {
     const files: File[] = this.uploader.queue.map(fil => fil._file);
-    this.progressItem = this.uploadService.uploadObserved(List(files), 1);
-    this.progressItem.mediaContainer.pipe(
-      mergeMap(media => {
-        this.post.media = media;
-        return this.postService.post(this.post, Number(this.thread), this.formModel.get('captcha').value);
-      })
-    ).subscribe(post => {
-        console.log(post);
-      }
-    );
+    if (files === null || files === undefined || files.length > 0) {
+      // upload without image.
+      this.post.media = [];
+      this.postService.post(this.post, Number(this.thread), this.captchaString).subscribe(
+        post => {
+          console.log(post);
+        }
+      );
+    } else {
+      this.progressItem = this.uploadService.uploadObserved(List(files), 1);
+      this.progressItem.mediaContainer.pipe(
+        mergeMap((media: MediaContainer[]) => {
+          this.post.media = media;
+          return this.postService.post(this.post, Number(this.thread), this.captchaString);
+        })
+      ).subscribe(post => {
+          console.log(post);
+        }
+      );
+    }
   }
 //  success Object.
 

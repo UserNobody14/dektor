@@ -1,10 +1,16 @@
-<p>thread</p>
+<!--<p>thread</p>-->
 <!--<app-video-container></app-video-container>-->
+<!--ngIf (notFound | async).is-->
 <app-post-form [thread]="thread" [board]="board"></app-post-form>
 <div class="board">
-  <div class="thread-angle-chan">
+  <div *ngIf="(notFound | async).isCurrentThread == false; else ErrorHandler" class="thread-angle-chan">
     <ng-container *ngFor="let item of posts$ | async; let i = index">
       <app-post *ngIf="!(inlined$ | async | containsNumber:item.number)" [inlining]="item.inlinedPosts" [post]="item" [isOp]="i === 0"></app-post>
     </ng-container>
   </div>
 </div>
+<ng-template #ErrorHandler>
+  <div>
+    <p>The thread: {{thread}} was not found for board: {{board}}</p>
+  </div>
+</ng-template>

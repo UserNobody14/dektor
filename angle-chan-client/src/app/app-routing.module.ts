@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ThreadComponent } from './thread/thread.component';
-import { CatalogComponent } from './catalog/catalog.component';
 
 const routes: Routes = [
 
@@ -10,11 +8,15 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: CatalogComponent
+        loadChildren: () => import('./catalog/catalog.module').then(
+          m => m.CatalogModule
+        )
       },
       {
         path: 'thread/:number',
-        component: ThreadComponent
+        loadChildren: () => import('./thread/thread.module').then(
+          m => m.ThreadModule
+        )
       },
     ]
   }

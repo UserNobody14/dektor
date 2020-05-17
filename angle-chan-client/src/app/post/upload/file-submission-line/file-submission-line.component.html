@@ -1,0 +1,107 @@
+<div class="dump-list-container">
+  <div class="dump-list">
+    <a
+      class="qr-preview has-file selected"
+      data-height="1158"
+      data-type="image/jpeg"
+      data-width="800"
+      draggable="true"
+      href="javascript:"
+      title="one-piece-63739.jpg (187 KB)"
+    >
+      <a class="remove fa fa-times-circle" style="" title="Remove"></a>
+      <label class="qr-preview-spoiler">
+        <input type="checkbox"/>
+        Spoiler
+      </label>
+      <span>&gt;&gt;70042270 </span>
+    </a>
+  </div>
+  <a href="javascript:" class="add-post" title="Add a post">+</a>
+</div>
+<div class="oekaki has-file" hidden="">
+  <input class="qr-draw-button" type="button" value="Draw"/>
+  <label>
+    <span>Width:</span>
+    <input
+      class="field"
+      name="oekaki-width"
+      size="1"
+      type="number"
+      value="400"
+    />
+  </label>
+  <label>
+    <span>Height:</span>
+    <input
+      class="field"
+      name="oekaki-height"
+      size="1"
+      type="number"
+      value="400"
+    />
+  </label>
+  <span class="oekaki-bg" title="Background Color">
+        <input checked="" name="oekaki-bg" type="checkbox"/>
+        <input name="oekaki-bgcolor" type="color" value="#ffffff"/>
+      </span>
+</div>
+
+
+<div [class.has-file]="hasFile" class="file-n-submit">
+<!--  <input class="qr-file-button" type="button" value="Files"/>-->
+  <span class="field qr-filename-container">
+        <span class="qr-no-file">No selected file</span>
+        <input
+          [(ngModel)]="fileName"
+          data-name="filename"
+          class="qr-filename"
+          spellcheck="false"
+          title="one-piece-63739.jpg (187 KB)"/>
+    <label class="qr-spoiler-label">
+        <input
+          class="qr-file-spoiler"
+          title="Spoiler image"
+          type="checkbox"
+        /><a class="checkbox-letter">S</a></label>
+        <a title="Edit in Tegaki" class="icon-holder-b qr-oekaki-button">
+<!--        <i class="fa fa-edit"></i>-->
+          <fa-icon icon="edit">::before</fa-icon>
+        </a>
+        <a class="qr-filerm" title="Remove file">
+        <i class="fa fa-times-circle"></i></a>
+        <a title="Post from URL" class="icon-holder-b url-button">
+          <fa-icon icon="link">::before</fa-icon>
+        </a>
+        <a
+          class="fa fa-clipboard paste-area"
+          contenteditable="true"
+          hidden=""
+          tabindex="-1"
+          title="Select to paste images">
+        </a>
+        <a
+          class="disabled custom-cooldown-button"
+          title="Toggle custom cooldown">
+        <i class="fa fa-clock-o"></i></a>
+        <a title="Dump list" class="icon-holder-b dump-button">
+          <fa-icon icon="plus-square">::before</fa-icon>
+        </a>
+        </span>
+  <!--        <input type="submit" value="Submit"/>-->
+  <button (click)="submitF.emit(true)" [disabled]="!validRecaptcha">Submit</button>
+</div>
+
+
+<!--Unknown-->
+<!--<select data-default="4" name="filetag">-->
+<!--  <option value="0">Hentai</option>-->
+<!--  <option value="6">Porn</option>-->
+<!--  <option value="1">Japanese</option>-->
+<!--  <option value="2">Anime</option>-->
+<!--  <option value="3">Game</option>-->
+<!--  <option value="5">Loop</option>-->
+<!--  <option selected="" value="4">Other</option>-->
+<!--</select>-->
+<!--<input multiple="" type="file"/>-->
+

@@ -14,6 +14,7 @@
         <option value="new">New thread</option>
         <option value="70042220">Thread 70042220</option>
       </select>
+<!--      give alternate options if creating a new thread  -->
     </div>
     <form>
       <div class="persona">
@@ -56,7 +57,7 @@
         <div id="tex-preview"></div>
       </div>
 <!--     -->
-<!--      <app-private-recaptcha></app-private-recaptcha>-->
+      <app-private-recaptcha [(isCaptchaSolved)]="isCaptchaSolved" [(resolvedString)]="captchaString" ></app-private-recaptcha>
       <!--    <div class="captcha-root">-->
       <!--      <div class="captcha-container" data-widget-i-d="0">-->
       <!--        <div style="width: 304px; height: 78px;">-->
@@ -84,8 +85,18 @@
       <!--        <a href="javascript:">Captchas: 0</a>-->
       <!--      </div>-->
       <!--    </div>-->
-
-<!--<app-file-submission-line (submitF)="uploadFiles()" [hasFile]="true" [validRecaptcha]="true"></app-file-submission-line>-->
+<!--      idea: ngFor over the files-->
+<!--      now add a 'remove' button & output to delete items -->
+      <app-file-submission-line (submitF)="uploadFiles()" [hasFile]="false" [validRecaptcha]="isCaptchaSolved"></app-file-submission-line>
+      <div *ngFor="let fileItem of remapUploader(uploader)">
+        <app-file-submission-line [fileName]="fileItem.name" (submitF)="uploadFiles()" [hasFile]="true" [validRecaptcha]="isCaptchaSolved"></app-file-submission-line>
+      </div>
+      <app-private-file-drop
+  (fileOverAnother)="fileOverAnother($event)"
+  (moreFilesSelected)="moreFilesSelected($event)"
+  [uploader]="uploader"
+  [isDropOver]="isDropOver"
+></app-private-file-drop>
 
     </form>
     <datalist id="list-name"></datalist>

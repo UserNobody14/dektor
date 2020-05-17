@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
-import {ImmMediaInfo} from '../models/media-container';
+import {ImmMediaInfo} from '../../models/media-container';
 import {List} from 'immutable';
 
 @Component({

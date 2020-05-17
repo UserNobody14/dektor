@@ -1,10 +1,10 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Select, Store} from '@ngxs/store';
-import {GetThreadsForBoardAction} from '../state/catalog/catalog.actions';
-import {ImmThread} from '../models/thread';
+import {GetThreadsForBoardAction} from '../../state/catalog/catalog.actions';
+import {ImmThread} from '../../models/thread';
 import {List} from 'immutable';
-import {CatalogState} from '../state/catalog/catalog.state';
+import {CatalogState} from '../../state/catalog/catalog.state';
 import {Observable} from 'rxjs';
 
 @Component({

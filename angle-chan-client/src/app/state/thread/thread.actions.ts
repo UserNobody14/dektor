@@ -8,7 +8,7 @@ export class PostToThread {
 }
 export class GetNextPage {
   static readonly type = '[Thread] GetNextPage]';
-  constructor(public readonly payload?: number) {}
+  constructor(public readonly board: string, public readonly payload?: number) {}
 }
 export class GetPostsForThread {
   static readonly type = '[Thread] GetPostsForThread]';

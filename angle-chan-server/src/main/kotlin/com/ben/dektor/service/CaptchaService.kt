@@ -43,7 +43,7 @@ val restTemplate: RestTemplate
         if (!responseSanityCheck(response)) {
             throw ReCaptchaInvalidException("Response contains invalid characters")
         }
-        LOGGER.info("secret: $reCaptchaSecret\n response: $response")
+        LOGGER.info("secret: $reCaptchaSecret\n response: $response\n site: $site")
 
         val verifyUri = URI.create(String.format("https://www.google.com/recaptcha/api/siteverify?secret=%s&response=%s&remoteip=%s", reCaptchaSecret, response, clientIP))
         try {

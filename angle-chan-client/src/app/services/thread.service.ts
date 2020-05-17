@@ -35,8 +35,8 @@ export class ThreadService {
     );
   }
 
-  getPostsPaged(thread: number, page: number): Observable<GenericPage<InputPost>> {
-    const params = new HttpParams().set('page', page.toString()).set('size', '10');
+  getPostsPaged(thread: number, page: number, board: string): Observable<GenericPage<InputPost>> {
+    const params = new HttpParams().set('page', page.toString()).set('size', '10').set('board', board);
     return this.http.get<GenericPage<InputPost>>('/api/thread/paged/' + thread, {params}).pipe(
       tap(item => console.log('thr', item.content))
     );
