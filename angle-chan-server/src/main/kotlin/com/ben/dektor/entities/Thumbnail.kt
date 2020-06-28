@@ -22,7 +22,7 @@ data class Thumbnail (
     var contentId: UUID?,
 
     @ContentLength
-    var contentLen: Long?,
+    var contentLength: Long?,
 
     @MimeType
     var mimeType: String = "text/plain"

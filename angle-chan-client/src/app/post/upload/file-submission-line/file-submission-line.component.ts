@@ -1,4 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
+import {FileItem} from 'ng2-file-upload';
 // import * as vfs from  'font-awesome/css/font-awesome.css';
 
 @Component({
@@ -8,7 +9,8 @@ import {Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from 
   encapsulation: ViewEncapsulation.ShadowDom
 })
 export class FileSubmissionLineComponent implements OnInit {
-  @Input() fileName: string;
+  @Input() isLast: boolean;
+  @Input() fileItem: FileItem;
   @Input() hasFile: boolean;
   @Input() validRecaptcha: boolean;
   @Output() submitF = new EventEmitter<boolean>();

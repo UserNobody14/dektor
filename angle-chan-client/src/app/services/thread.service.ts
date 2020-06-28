@@ -7,6 +7,7 @@ import {ImmMediaInfo} from '../models/media-container';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {map, tap} from 'rxjs/operators';
 import {GenericPage} from '../models/generic-page';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,8 @@ export class ThreadService {
   // TODO: get actually running on web?
   // TODO: figure out multiple image upload issue.
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   getThreadsHttp(thread: number): Observable<ImmThread> {
     return this.http.get<InputThread>('/api/thread/' + thread).pipe(
@@ -36,7 +38,7 @@ export class ThreadService {
   }
 
   getPostsPaged(thread: number, page: number, board: string): Observable<GenericPage<InputPost>> {
-    const params = new HttpParams().set('page', page.toString()).set('size', '10').set('board', board);
+    const params = new HttpParams().set('page', page.toString()).set('size', '' + environment.pageSize).set('board', board);
     return this.http.get<GenericPage<InputPost>>('/api/thread/paged/' + thread, {params}).pipe(
       tap(item => console.log('thr', item.content))
     );
@@ -44,31 +46,36 @@ export class ThreadService {
 
 
   getPosts() {
-    return List([new ImmPost({name: 'vv',
-    text: '',
-  number: 0,
-  // date: '',
-  replies: [],
-  replyingTo: []})]);
+    return List([new ImmPost({
+      name: 'vv',
+      text: '',
+      number: 0,
+      // date: '',
+      replies: [],
+      replyingTo: []
+    })]);
   }
+
   getPostsObservable(): Observable<List<ImmPost>> {
     return of(this.getPosts());
   }
+
   getThread(): Observable<ImmThread> {
     return of(new ImmThread({posts: this.getPosts()}));
   }
-  private immPostGenericTest = (text, threadNumber) => {
+
+  private immPostGenericTest(text, threadNumber) {
     return {
-     text,
+      text,
       number: threadNumber,
       date: new Date().toISOString(),
       utc: new Date().toUTCString()
-  };
+    };
   }
   getThreadForThreadNum(threadNumber: number): Observable<ImmThread> {
     const testMedia = List([new ImmMediaInfo({
       info: {link: 3, width: 85, height: 120, contentLength: 0},
-      thumbnail: {link: 3, width: 85, height: 120, contentLen: 0},
+      thumbnail: {link: 3, width: 85, height: 120, contentLength: 0},
       title: 'My image.jpg',
       mediaSizeKb: '1.1 Mb'
     })]);

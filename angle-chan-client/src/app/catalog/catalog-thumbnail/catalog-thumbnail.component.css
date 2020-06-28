@@ -279,3 +279,20 @@ div.catalog-reply > a.catalog-reply-excerpt {
 /*:host .board {*/
 /*  text-align: center;*/
 /*}*/
+div.post div.postInfo span.subject {
+  color: #0f0c5d;
+  font-weight: 700;
+}
+.catalog-post > * > .subject {
+  display: block;
+}
+/*element {*/
+/*  --tn-w: 250;*/
+/*  --tn-h: 187;*/
+/*}*/
+.catalog-thread {
+  word-wrap: break-word;
+}
+:root.catalog-mode .board {
+  text-align: center;
+}

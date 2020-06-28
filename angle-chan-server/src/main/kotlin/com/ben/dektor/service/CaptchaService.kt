@@ -45,9 +45,17 @@ val restTemplate: RestTemplate
         }
         LOGGER.info("secret: $reCaptchaSecret\n response: $response\n site: $site")
 
-        val verifyUri = URI.create(String.format("https://www.google.com/recaptcha/api/siteverify?secret=%s&response=%s&remoteip=%s", reCaptchaSecret, response, clientIP))
+        val verifyUri = URI.create(
+                "https://www.google.com/recaptcha/api/siteverify" +
+                "?secret=$reCaptchaSecret&response=$response&remoteip=$clientIP"
+        )
         try {
-            val googleResponse = restTemplate.getForObject(verifyUri, GoogleResponse::class.java) ?: throw ReCaptchaUnavailableException("Registration unavailable at this time.  Please try again later.")
+            val googleResponse = restTemplate.getForObject(
+                    verifyUri,
+                    GoogleResponse::class.java
+            ) ?: throw ReCaptchaUnavailableException(
+                    "Registration unavailable at this time.  Please try again later."
+            )
             LOGGER.debug("Google's response: {} ", googleResponse.toString())
             if (!googleResponse.success) {
                 if (googleResponse.hasClientError()) {
@@ -56,13 +64,18 @@ val restTemplate: RestTemplate
                 throw ReCaptchaInvalidException("reCaptcha was not successfully validated")
             }
         } catch (rce: RestClientException) {
-            throw ReCaptchaUnavailableException("Registration unavailable at this time.  Please try again later.", rce)
+            throw ReCaptchaUnavailableException(
+                    "Registration unavailable at this time.  Please try again later.",
+                    rce
+            )
         }
         reCaptchaAttemptService.reCaptchaSucceeded(clientIP)
     }
 
     private fun responseSanityCheck(response: String?): Boolean {
-        return StringUtils.hasLength(response) && RESPONSE_PATTERN.matcher(response?: return false).matches()
+        return StringUtils.hasLength(response) && RESPONSE_PATTERN.matcher(
+                response?: return false
+        ).matches()
     }
 
 //    override fun getReCaptchaSite(): String? {

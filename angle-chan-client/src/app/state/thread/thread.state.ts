@@ -36,8 +36,33 @@ export interface ThreadStateModel {
   thread: ImmThread;
   pageNumber: number;
   alreadyInlinedPosts: Set<number>;
+  mostRecentPage: GenericPage<null>;
 }
 // const threadStateModelRecord = Record<>({})
+
+function logPageNumbers(page: number, currentThread: number, threadNumber: number, pageNumber: number) {
+  console.log(`
+      page: ${page}
+      currentThread: ${currentThread}
+      threadNumber: ${threadNumber}
+      pageNumber: ${pageNumber}`
+  );
+}
+
+function logPageValues(invalue: GenericPage<InputPost>, pageNumber: number) {
+  console.log(`
+      After finishing the inputs:
+      totalPages: ${invalue.totalPages}
+      totalElements: ${invalue.totalElements}
+      isLast: ${invalue.last}
+      number: ${invalue.number}
+      pageNumber: ${pageNumber}`
+  );
+}
+
+function nullifyPage<T>(page: GenericPage<T>): GenericPage<null> {
+  return {...page, content: null};
+}
 
 @State<ThreadStateModel>({
     name: 'thread',
@@ -51,6 +76,34 @@ export interface ThreadStateModel {
         threadNumber: 0,
         isCurrentThread: false,
         dateNotFound: new Date()
+      },
+      mostRecentPage: {
+        content: null,
+        pageable: {
+          sort: {
+            unsorted: false,
+            sorted: false,
+            empty: false,
+          },
+          offset: 0,
+          pageSize: 0,
+          pageNumber: 0,
+          paged: false,
+          unpaged: false,
+        },
+        totalElements: 0,
+        totalPages: 0,
+        last: false,
+        size: 0,
+        number: 0,
+        sort: {
+                  unsorted: false,
+                  sorted: false,
+                  empty: false,
+        },
+        numberOfElements: 0,
+        first: false,
+        empty: false,
       }
     }
 })
@@ -65,7 +118,7 @@ export class ThreadState {
     }
     @Selector()
     public static posts(state: ThreadStateModel) {
-        return state.thread.get('posts');
+        return state.thread.get('posts').sortBy(qq => qq.number);
     }
     @Selector()
     public static inlined(state: ThreadStateModel) {
@@ -75,6 +128,7 @@ export class ThreadState {
     public static findPosts(state: ThreadStateModel) {
       return (a: number) => {
         // console.log('foundin a: ',  a);
+        // inefficient?
         return state.thread.get('posts').find(b => b.get('number') === a);
       };
     }
@@ -140,8 +194,8 @@ export class ThreadState {
     { payload, board }: GetNextPage
   ) {
       const st = getState();
-      const page = st.pageNumber;
-      const currentThreadPosts = st.thread;
+      const page = st.mostRecentPage.number;
+      // const currentThreadPosts = st.thread;
       //if the threadnumber in the payload is different, reset;
       // edge cases: st.thread.number is null
       //pageNumber is null
@@ -150,42 +204,55 @@ export class ThreadState {
       const currentThread = st.thread.number;
       const threadNumber = payload ? payload : currentThread;
       mustNotBeNull(threadNumber);
-      const pageNumber = payload ?
-      payload !== currentThread ? 0 : page + 1 : page + 1;
-      const notFound = (isCurrentThread: boolean, message?: string, other?: boolean): ThreadNotFound => ({
-        otherThreadError: other,
+      const isDifferentFromCurrentPage = payload !== currentThread;
+      const isPage0 = (payload && isDifferentFromCurrentPage);
+      // Now deal with situations where last pageSize items may have changed before user refreshed the thread?
+      const currentPageIsLastPage = !isDifferentFromCurrentPage && st.mostRecentPage.last;
+      const rerunLastPage = currentPageIsLastPage ? page : page + 1;
+      const pageNumber = isPage0 ? 0 : rerunLastPage;
+      const notFound = (isCurrentThread: boolean, message?: string, otherThreadError?: boolean): ThreadNotFound => ({
+        otherThreadError,
         message,
         threadNumber,
         isCurrentThread,
         dateNotFound: new Date()
       });
+      // logging the issues:
+      logPageNumbers(page, currentThread, threadNumber, pageNumber);
+      // if this is the last page, set the last page variable.
+      // if getNextPage is called and its the last page
       return this.threadService.getPostsPaged(threadNumber,  pageNumber, board).pipe(
         // catches the errors and resolves them.
         catchError((err: HttpErrorResponse) => {
           const errHeader = err.headers.get('thread-not-found-status');
-          if (errHeader !== 'true') {
-            console.log('error really was: ', err.message);
-            patchState({
-              notFound: notFound(true, errHeader, true)
-            });
-            return throwError(err);
-          } else {
-            patchState({
-              notFound: notFound(true, errHeader, false)
-            });
-            console.log('Handling error locally and rethrowing it...', err);
-            return throwError(err);
-          }
+          console.log('Handling error locally and rethrowing it...', err);
+          patchState({
+            notFound: notFound(true, errHeader, errHeader !== 'true')
+          });
+          return throwError(err);
         }),
         tap((invalue: GenericPage<InputPost>) => {
           const inList: List<ImmPost> = List(invalue.content).map(a => new ImmPost(a));
-          const thread: ImmThread = new ImmThread({
-            ...currentThreadPosts,
-            posts: currentThreadPosts.posts.concat(inList)
-          });
+          // if currentPageIsLastPage && !invalue.last get the new pages?
+          const concatList = currentPageIsLastPage ?
+            st.thread.posts.concat(
+              inList.filter(
+                qq => !st.thread.posts.map(aa => aa.number).toSet().has(qq.number)
+              )
+            ) : st.thread.posts.concat(inList);
+          const thread: ImmThread = st.thread.set(
+            'posts',
+            // temp solution?
+            isPage0 ? inList : concatList
+          ).set(
+            'number',
+            threadNumber
+          );
           //TODO: save an error value in the threadstate?
           //TODO: make it determine the max pages and do something?
+          logPageValues(invalue, pageNumber);
           patchState({
+            mostRecentPage: nullifyPage(invalue),
             notFound: notFound(false),
             thread,
             pageNumber,

@@ -33,7 +33,7 @@ class DektorApplicationTests {
         entityManager!!.flush()
 
         // when
-        val found = threadRepository!!.findById(alex.number).get()
+        val found = threadRepository!!.findById(alex.number!!).get()
 
         // then
         Assertions.assertThat(found.subject)

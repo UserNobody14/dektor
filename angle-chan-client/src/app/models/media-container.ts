@@ -17,7 +17,7 @@ export interface Thumbnail {
   link: number;
   height: number;
   width: number;
-  contentLen: number;
+  contentLength: number;
 }
 export interface MediaInfo {
   link: number;
@@ -27,7 +27,7 @@ export interface MediaInfo {
 
 }
 const mediaRecord = Record<MediaContainer>({
-  thumbnail: {link: 0, height: 0, width: 0, contentLen: 0},
+  thumbnail: {link: 0, height: 0, width: 0, contentLength: 0},
   // thumbnailHeight: '',
   // thumbnailWidth: '',
   mediaSizeKb: '',

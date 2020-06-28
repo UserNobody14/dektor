@@ -1,9 +1,11 @@
 package com.ben.dektor.security
 
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.content.fs.config.EnableFilesystemStores
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.scheduling.annotation.EnableAsync
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
@@ -16,10 +18,22 @@ import org.springframework.web.client.RestTemplate
 @EnableWebSecurity
 @EnableAsync
 @EnableFilesystemStores(basePackages = ["com.ben.dektor.store"])
-open class WebSecurity : WebSecurityConfigurerAdapter() {
+open class WebSecurity(
+        @Autowired
+        private val userDetailsService: UserDetailsServiceImpl
+) : WebSecurityConfigurerAdapter() {
+
+
+
     @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
-        http.csrf().disable().authorizeRequests().anyRequest().permitAll()
+        http.csrf().disable().authorizeRequests()
+                .antMatchers(HttpMethod.DELETE, "/admin/**")
+                .hasAuthority("ADMINISTRATOR")
+                .anyRequest().permitAll()
+                .and()
+                .addFilter(JWTAuthenticationFilter(authenticationManager()))
+                .addFilter(JWTAuthorizationFilter(authenticationManager(), userDetailsService))
     }
 
     @Bean

@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  pageSize: 10,
   apiUrl: '/api'
 };
 

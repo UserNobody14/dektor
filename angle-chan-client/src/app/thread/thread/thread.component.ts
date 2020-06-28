@@ -41,5 +41,8 @@ export class ThreadComponent implements OnInit {
       }
     });
   }
+  trackByFn(index, item: Post) {
+    return item.number; // or item.id
+  }
 
 }

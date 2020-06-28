@@ -27,7 +27,8 @@ data class Post (
     var media: MutableList<MediaContainer>,
 
     @ElementCollection
-    var replies: List<Long>?
+    var replies: List<Long>?,
+    var isOp: Boolean
     ) {
     constructor(old: Post): this(
             null,
@@ -36,6 +37,18 @@ data class Post (
             old.utc,
             old.text,
             old.media,
-            old.replies
+            old.replies,
+            old.isOp
     )
+    constructor(old: Post, isOp: Boolean): this(
+            null,
+            old.name,
+            old.thread,
+            old.utc,
+            old.text,
+            old.media,
+            old.replies,
+            isOp
+    )
+
 }

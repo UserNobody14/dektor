@@ -4,7 +4,7 @@
 <app-post-form [thread]="thread" [board]="board"></app-post-form>
 <div class="board">
   <div *ngIf="(notFound | async).isCurrentThread == false; else ErrorHandler" class="thread-angle-chan">
-    <ng-container *ngFor="let item of posts$ | async; let i = index">
+    <ng-container *ngFor="let item of posts$ | async; let i = index; trackBy: trackByFn">
       <app-post *ngIf="!(inlined$ | async | containsNumber:item.number)" [inlining]="item.inlinedPosts" [post]="item" [isOp]="i === 0"></app-post>
     </ng-container>
   </div>

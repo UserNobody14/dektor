@@ -10,6 +10,9 @@ import {mergeMap} from 'rxjs/operators';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {HttpClient, HttpHandler} from '@angular/common/http';
 import {MediaContainer} from '../../../models/media-container';
+import {Store} from '@ngxs/store';
+import {GetNextPage} from '../../../state/thread/thread.actions';
+import {Router} from '@angular/router';
 
 @Component({
   moduleId: 'UploadModule',
@@ -21,7 +24,12 @@ import {MediaContainer} from '../../../models/media-container';
 })
 export class PostFormComponent implements OnInit {
 
-  constructor(private postService: PostService, @Inject(UploadService) private uploadService: UploadService) { }
+  constructor(
+    private postService: PostService,
+    @Inject(UploadService) private uploadService: UploadService,
+    private  store: Store,
+    private router: Router
+  ) { }
   progressItem: UploadObserver;
 
   baseUrl = environment.apiUrl;
@@ -37,7 +45,10 @@ export class PostFormComponent implements OnInit {
   @Input() board: string;
 
   captchaString: string = null;
-  isCaptchaSolved: boolean = false;
+  isCaptchaSolved = false;
+  selectedValue: 'new' | 'current' = 'current';
+
+  subject: string;
 
   makePost() {
 
@@ -77,16 +88,27 @@ export class PostFormComponent implements OnInit {
 
   uploadFiles() {
     const files: File[] = this.uploader.queue.map(fil => fil._file);
-    if (files === null || files === undefined || files.length > 0) {
-      // upload without image.
-      this.post.media = [];
-      this.postService.post(this.post, Number(this.thread), this.captchaString).subscribe(
-        post => {
-          console.log(post);
-        }
-      );
+    if (files === null || files === undefined || files.length === 0) {
+      this.uploadWithoutMedia();
     } else {
-      this.progressItem = this.uploadService.uploadObserved(List(files), 1);
+      this.uploadWithMedia(files);
+    }
+  }
+
+  private uploadWithoutMedia() {
+    // upload without image.
+    this.post.media = [];
+    this.postService.post(this.post, Number(this.thread), this.captchaString).subscribe(
+      post => {
+        console.log(post);
+        this.store.dispatch(new GetNextPage(this.board, Number(this.thread)));
+      }
+    );
+  }
+
+  private uploadWithMedia(files: File[]) {
+    this.progressItem = this.uploadService.uploadObserved(List(files), 1);
+    if (this.selectedValue === 'current') {
       this.progressItem.mediaContainer.pipe(
         mergeMap((media: MediaContainer[]) => {
           this.post.media = media;
@@ -94,10 +116,25 @@ export class PostFormComponent implements OnInit {
         })
       ).subscribe(post => {
           console.log(post);
+          this.store.dispatch(new GetNextPage(this.board, Number(this.thread)));
+        }
+      );
+    } else { // for posting a new thread
+      this.progressItem.mediaContainer.pipe(
+        mergeMap((media: MediaContainer[]) => {
+          this.post.media = media;
+          return this.postService.postThread(this.post, this.subject, this.board, this.captchaString);
+        })
+      ).subscribe((post) => {
+          console.log(post);
+          const newThread: number = (typeof post.thread === 'number') ? post.thread : post.thread.number;
+          this.router.navigate(['board', this.board, 'thread', newThread]);
+          // this.store.dispatch(new GetNextPage(this.board, newThread));
         }
       );
     }
   }
+
 //  success Object.
 
 }

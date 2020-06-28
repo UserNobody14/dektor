@@ -67,7 +67,9 @@ class DektorApplication {
                     null,
                     "My post first",
                     mutableListOf(mc),
-                    null)
+                    null,
+                true
+            )
 //            jbauer
             val thread = CatalogThread(
                     0,
@@ -82,9 +84,11 @@ class DektorApplication {
 
             // store profile picture
             mediaStore.setContent(m, FileInputStream(
-                    Path.of(Paths.get("").toAbsolutePath().toString(), "angle-chan-client", "src", "assets", "1573343926_1573341745591s.jpg").toString()))
+                    Path.of(Paths.get("").toAbsolutePath().toString(),
+                            "angle-chan-client", "src", "assets", "1573343926_1573341745591s.jpg").toString()))
             thumbnailStore.setContent(t, FileInputStream(
-                    Path.of(Paths.get("").toAbsolutePath().toString(), "angle-chan-client", "src", "assets", "1573343887_1573340897764s.jpg").toString()))
+                    Path.of(Paths.get("").toAbsolutePath().toString(),
+                            "angle-chan-client", "src", "assets", "1573343887_1573340897764s.jpg").toString()))
 
             // save the user
 //            mediaInfoRepository.save(m);

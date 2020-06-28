@@ -6,9 +6,9 @@ import { HttpClient } from '@angular/common/http';
 // import { Observable } from 'rxjs/Observable';
 import { map, catchError } from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
-import {ImmThread} from '../models/thread';
+import {ImmThread, Thread} from '../models/thread';
 import {List} from 'immutable';
-import {ImmPost} from '../models/post';
+import {ImmPost, InputPost} from '../models/post';
 import {ImmMediaInfo} from '../models/media-container';
 const immPostGenericTest = (text, threadNumber) => {
   return {
@@ -26,13 +26,13 @@ export class CatalogService {
 
   constructor(private http: HttpClient) { }
 
-  getThreadsForBoard(board: string) {
-    return this.http.get('/api/board/' + board);
+  getThreadsForBoard(board: string): Observable<InputPost[]> {
+    return this.http.get<InputPost[]>('/api/thread/catalog/' + board);
   }
   testGetThreadsForBoard(board: string): Observable<List<ImmThread>> {
-    const testMedia = new ImmMediaInfo({
+/*    const testMedia = new ImmMediaInfo({
       info: {link: 3, width: 85, height: 120, contentLength: 0},
-      thumbnail: {link: 3, width: 85, height: 120, contentLen: 0},
+      thumbnail: {link: 3, width: 85, height: 120, contentLength: 0},
       title: 'My image.jpg',
       mediaSizeKb: '1.1 Mb'
     });
@@ -52,7 +52,18 @@ export class CatalogService {
         number: 11,
         posts: List([opost, ...morePosts])
       })
-    ]));
+    ]));*/
+  return this.getThreadsForBoard(board).pipe(
+    map((iPost: InputPost[]) => {
+      const posts: List<ImmThread> = List(iPost).map(ii => {
+        console.log('getThreadsForBoard: ', ii);
+        const th: Partial<Thread> = (typeof ii.thread !== 'number') ? {...ii.thread, posts: List([new ImmPost(ii)])} : null;
+        return new ImmThread(th);
+      });
+      // const threadPosts: List<ImmThread> = posts.map(aa => aa.)
+      return posts;
+    })
+  );
   }
 
 }

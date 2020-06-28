@@ -1,6 +1,7 @@
 package com.ben.dektor.repositories
 
 import com.ben.dektor.entities.CatalogThread
+import com.ben.dektor.entities.Post
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param

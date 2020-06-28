@@ -13,7 +13,7 @@ data class CatalogThread (
     //    TODO: make the thread subdivided under boards & posts also subdivided (to prevent overuse/concurrency?)
         @Id
         @GeneratedValue
-        var number: Long,
+        var number: Long?,
         var subject: String,
 
     //    @OneToOne()

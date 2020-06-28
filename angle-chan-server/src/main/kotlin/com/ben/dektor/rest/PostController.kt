@@ -1,11 +1,9 @@
 package com.ben.dektor.rest
 
-import com.ben.dektor.entities.MediaContainer
-import com.ben.dektor.entities.MediaInfo
-import com.ben.dektor.entities.Post
-import com.ben.dektor.entities.Thumbnail
+import com.ben.dektor.entities.*
 import com.ben.dektor.repositories.MediaContainerRepository
 import com.ben.dektor.repositories.PostRepository
+import com.ben.dektor.repositories.ThreadRepository
 import com.ben.dektor.service.CaptchaService
 import com.ben.dektor.service.ICaptchaService
 import com.ben.dektor.store.MediaStore
@@ -19,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.IOException
+import java.lang.Exception
 
 @RestController
 @RequestMapping("/fileAccess")
@@ -27,6 +26,8 @@ class PostController (
         private val postRepository: PostRepository,
         @Autowired
         val mediaContainerRepository: MediaContainerRepository,
+        @Autowired
+        private val threadRepository: ThreadRepository,
         @Autowired
 val captchaService: ICaptchaService,
         @Autowired
@@ -53,6 +54,7 @@ private val thumbnailStore: ThumbnailStore
 //        in a statement that returns a MediaContainer?
 //        val media = MediaContainer()
 //        TODO: make illegitimate pics get deleted 2 prevent abuse?
+//        TODO: make it require a captcha as well? (to prevent spam)
         val mediaContainer = MediaContainer(
                 null,
                 MediaInfo(file.contentType ?: throw IOException()),
@@ -80,10 +82,9 @@ private val thumbnailStore: ThumbnailStore
     @PostMapping(path = ["/post"])
     fun makePost(@RequestBody post: Post, @RequestParam(value = "captcha") captcha: String): Post {
         captchaService.processResponse(captcha)
-//        TODO: reset a post's id to zero so no post is overridden?
 //TODO: switch to a microservice style architecture? w/captcha verification done ahead of this?
-//TODO: read through the post text and add it to the replies of other posts?
-        return postRepository.save(Post(post))
+//        TODO: make saving the post an async result of catcha finishing?
+        return handlePost(post)
     } //    @GetMapping(path = "experimentFile/:numberV")
     //    public Post expFile(@PathVariable("numberV") Long number) {
     //        System.out.println("here I am");
@@ -102,4 +103,37 @@ private val thumbnailStore: ThumbnailStore
     //        }
     //        return null;
     //    }
+
+    fun handlePost(post: Post): Post {
+        //        TODO: reset a post's id to zero so no post is overridden?
+//TODO: read through the post text and add it to the replies of other posts?
+        return postRepository.save(Post(post, false))
+    }
+    @PostMapping(path = ["/createThread/{board}"])
+    fun makeThread(
+            @RequestBody post: Post,
+            @RequestParam("captcha") captcha: String
+    ): Post {
+        captchaService.processResponse(captcha)
+        val isNull = post.thread?.subject == null
+        val thread = CatalogThread(
+                0,
+                if (post.thread?.subject != null) post.thread!!.subject else "",
+                mutableListOf(),
+                post.thread!!.board
+                )
+
+        val nthread = threadRepository.saveAndFlush(thread)
+        post.thread = nthread
+        val nPost = Post(post, true)
+        return postRepository.saveAndFlush(nPost)
+//        verify that the thread only contains one post and add it
+//        val posts = thread.posts;
+//        if (posts.size == 1) {
+//            thread.posts = mutableListOf(handlePost(posts[0]))
+//            return threadRepository.save(thread)
+//        } else {
+//            throw Exception("tried to save a thread w/ more than one post...")
+//        }
+    }
 }

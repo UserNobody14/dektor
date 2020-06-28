@@ -67,7 +67,7 @@ export const catalogThumbnail = () => ({
         mediaSizeKb: '440902',
         mediaType: 'image',
         thumbnail: {
-          contentLen: 4322,
+          contentLength: 4322,
           link: 34,
           height: 85,
           width: 230
@@ -89,7 +89,7 @@ export const catalogThumbnail = () => ({
         mediaSizeKb: '440902',
         mediaType: 'image',
         thumbnail: {
-          contentLen: 4322,
+          contentLength: 4322,
           link: 34,
           height: 85,
           width: 230

@@ -5,6 +5,8 @@ import {List} from 'immutable';
 import {CatalogService} from '../../services/catalog.service';
 import {tap} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
+import {CatalogItem} from '../../models/catalog-item';
+import {ImmPost} from '../../models/post';
 
 export interface CatalogStateModel {
   board: string;
@@ -29,6 +31,16 @@ export class CatalogState {
   @Selector()
   public static threads(state: CatalogStateModel) {
     return state.threads;
+  }
+  @Selector()
+  public static catalogItem(state: CatalogStateModel): List<CatalogItem> {
+    return state.threads.map(val => ({
+      post: val.posts.get(0),
+      subject: val.subject,
+      media: val.posts.get(0).media.get(0),
+      number: val.number,
+      replies: List<ImmPost>([])
+    }));
   }
 
   @Action(GetThreadsForBoardAction)

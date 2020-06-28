@@ -34,6 +34,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security:$springBootVersion")
     implementation("com.github.paulcwarren:spring-content-fs-boot-starter:$springContentVersion")
     implementation("com.github.paulcwarren:spring-content-rest-boot-starter:$springContentVersion")
+    implementation("com.auth0:auth0:1.19.0")
+    implementation("com.auth0:java-jwt:3.10.3")
 //    implementation("org.springframework.boot:spring-boot-configuration-processor:$springBootVersion")
 //    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     implementation("com.google.guava:guava:28.1-jre")

@@ -42,6 +42,13 @@ class ThreadController(
         }
     }
 
+    @GetMapping(path = ["catalog/{board}"])
+    fun getCatalog(
+            @PathVariable board: String
+    ): List<Post> {
+        return postRepository.firstPostsForBoard(board)
+    }
+
     @PostMapping("/sendOTP")
     fun sendOTP(): String {
         return "OTP sent"
