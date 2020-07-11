@@ -10,6 +10,7 @@ import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import java.io.FileInputStream
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -32,7 +33,9 @@ class DektorApplication {
             thumbnailStore: ThumbnailStore,
             mediaStore: MediaStore,
             mediaInfoRepository: MediaContainerRepository,
-            boardRepository: BoardRepository
+            boardRepository: BoardRepository,
+            profileRepository: UserProfileRepository,
+            bCryptPasswordEncoder: BCryptPasswordEncoder
     ): CommandLineRunner {
         return CommandLineRunner { args: Array<String?>? ->
             // create a new user
@@ -100,7 +103,14 @@ class DektorApplication {
             jbauer.thread = nthread
             jbauer.media = mutableListOf(nmc)
             postRepository.save(jbauer)
+            val password = bCryptPasswordEncoder.encode("ADMIN")
+            val profile = UserProfile(listOf("ADMIN"), password, "ADMIN")
+            profileRepository.save(profile)
         }
+    }
+    @Bean
+    fun bCryptPasswordEncoder(): BCryptPasswordEncoder {
+        return BCryptPasswordEncoder(6)
     }
 
     companion object {

@@ -24,6 +24,7 @@ import javax.servlet.FilterChain
 import javax.servlet.ServletException
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
+import kotlin.collections.ArrayList
 
 
 object SecurityConstants {
@@ -37,7 +38,7 @@ object SecurityConstants {
 
 class JWTAuthenticationFilter(authenticationManager: AuthenticationManager
 ) : UsernamePasswordAuthenticationFilter() {
-//    override val a: AuthenticationManager = TODO()
+    val a: AuthenticationManager = authenticationManager
 
     @Throws(AuthenticationException::class)
     override fun attemptAuthentication(req: HttpServletRequest,
@@ -45,11 +46,14 @@ class JWTAuthenticationFilter(authenticationManager: AuthenticationManager
         return try {
             val creds: UserProfile = ObjectMapper()
                     .readValue(req.getInputStream(), UserProfile::class.java)
-            authenticationManager.authenticate(
+            println(creds)
+            a.authenticate(
                     UsernamePasswordAuthenticationToken(
                             creds.getUsername(),
                             creds.getPassword(),
-                            ArrayList() //(creds.getAuthorityr() != null) ? Collections.singletonList(new Authority(creds.getAuthorityr())):
+                            ArrayList()
+//                            ArrayList()
+//                            creds.getAuthorities() //(creds.getAuthorityr() != null) ? Collections.singletonList(new Authority(creds.getAuthorityr())):
                             //Collections.emptyList()
                             //creds.getAuthorities()
                     )
@@ -66,6 +70,7 @@ class JWTAuthenticationFilter(authenticationManager: AuthenticationManager
                                           auth: Authentication) {
         val token: String = JWT.create()
                 .withSubject((auth.getPrincipal() as UserProfile).getUsername()) //.withClaim("authorityr", ((ApplicationUser) auth.getPrincipal()).getAuthorityr())
+//                .withClaim()
                 .withExpiresAt(Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .sign(HMAC512(SECRET))
         res.addHeader(HEADER_STRING, TOKEN_PREFIX.toString() + token)

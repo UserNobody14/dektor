@@ -11,7 +11,7 @@ import javax.persistence.*
 @Entity
 @Table
 data class UserProfile (
-        @ElementCollection
+        @ElementCollection(fetch = FetchType.EAGER)
         val authorities: List<String>,
         private val password: String,
         @Id
