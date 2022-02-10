@@ -38,7 +38,7 @@
     "ng-recaptcha": "^5.0.0",
     "ng2-file-upload": "^1.4.0",
     "ngx-videogular": "^9.0.1",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "property-watch-decorator": "^1.2.5",
     "rxjs": "^6.5.4",
     "tslib": "^1.11.1",
